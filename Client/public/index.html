@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta charset="utf-8">
+    <title>tests</title>
+</head>
+
+<body>
+<script>
+    const data1 = {
+        speed: [1, 2, 3, 4],
+        deg: [10, 31, 72, 641]
+    };
+
+    const optionPost = {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(data1)
+    }
+    let type = 'hybrid';
+    fetch('/api/model?model_type=' + type, optionPost);
+    fetch('/api/model?model_id=1').then(res => {
+        if (res.ok)
+            res.json().then(console.log)
+        else
+            console.log(res);
+    });
+
+</script>
+
+<h1>Hello wprld</h1>
+</body>
+
+</html>
