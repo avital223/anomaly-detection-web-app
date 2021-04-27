@@ -1,11 +1,11 @@
-const util = require("./anomaly_detection_util");
+const util = require('./anomaly_detection_util');
 
 
 class SimpleAnomalyDetector {
 
     constructor() {
         this.correlations = [];
-        this.correlationThreshold = 0.9
+        this.correlationThreshold = 0.9;
     }
 
     // virtual vector<AnomalyReport>    
@@ -20,13 +20,13 @@ class SimpleAnomalyDetector {
                 const p = {
                     x: feature1[i],
                     y: feature2[i]
-                }
+                };
                 if (this.getDistance(cf, p) > cf.threshold) {
                     anomalyReport.push({
                         feature1: cf.feature1,
                         feature2: cf.feature2,
                         timeSteps: i
-                    })
+                    });
                 }
 
             }
@@ -41,7 +41,7 @@ class SimpleAnomalyDetector {
 
     getMaxCorr(ts, features, i) {
         let maxCor = 0;
-        let maxFeature = "";
+        let maxFeature = '';
         const feature1 = ts.getFeatureData(features[i]);
 
         const len = features.length;
@@ -67,7 +67,7 @@ class SimpleAnomalyDetector {
     }
 
 
-    createCorrelatedFeatures = function (ts, cf) {
+    createCorrelatedFeatures(ts, cf) {
         // creating the data points
         const feature1 = ts.getFeatureData(cf.feature1);
         const feature2 = ts.getFeatureData(cf.feature2);
@@ -77,12 +77,12 @@ class SimpleAnomalyDetector {
             points.push({
                 x: feature1[i],
                 y: feature2[i]
-            })
+            });
         }
         this.fillCF(cf, points);
 
         this.correlations.push(cf);
-    }
+    };
 
     fillCF(cf, points) {
         const cf1 = cf;
@@ -101,16 +101,19 @@ class SimpleAnomalyDetector {
 
     //virtual void 
     async learnNormal(ts) {
-        const features = ts.getFeatureNames();
-        /* runs from the first feature to the one before last no need to check the
-         last one as i check them in pairs */
-        for (let i = 0; i < features.length - 1; i++) {
-            const cf = this.getMaxCorr(ts, features, i);
-            if (this.toPush(cf)) {
-                this.createCorrelatedFeatures(ts, cf, i);
+        return new Promise(resolve => {
+            const features = ts.getFeatureNames();
+            /* runs from the first feature to the one before last no need to check the
+             last one as i check them in pairs */
+            for (let i = 0; i < features.length - 1; i++) {
+                const cf = this.getMaxCorr(ts, features, i);
+                if (this.toPush(cf)) {
+                    this.createCorrelatedFeatures(ts, cf, i);
+                }
             }
-        }
-
+            setTimeout(() => resolve(), 5000);
+        });
     }
 }
+
 module.exports = SimpleAnomalyDetector;

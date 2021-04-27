@@ -1,4 +1,3 @@
-
 class TimeSeries {
 
     constructor(data) {
@@ -6,17 +5,17 @@ class TimeSeries {
 
     }
 
-    getFeatureNames = function () {
+    getFeatureNames() {
         const names = [];
         for (let d in this.data) {
             names.push(d);
         }
         return names;
-    }
+    };
 
-    getFeatureData = function (name) {
+    getFeatureData(name) {
         return this.data[name];
-    }
-};
+    };
+}
 
 module.exports = TimeSeries;

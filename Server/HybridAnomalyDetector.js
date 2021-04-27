@@ -1,4 +1,4 @@
-const Circle = require("./micCircle");
+const Circle = require('./micCircle');
 const SimpleAnomalyDetector = require('./SimpleAnomalyDetector');
 
 
@@ -30,8 +30,8 @@ class HybridAnomalyDetector extends SimpleAnomalyDetector {
             cf1.min_circle = Circle.findMinCircle(points);
             cf1.threshold = cf1.min_circle.radius * 1.1;
             cf = cf1;
-            return;
         }
     }
 }
+
 module.exports = HybridAnomalyDetector;
