@@ -3,11 +3,14 @@ const TimeSeries = require('./TimeSeries');
 const HybridAnomalyDetector = require('./HybridAnomalyDetector');
 
 const SimpleAnomalyDetector = require('./SimpleAnomalyDetector');
+
+const db = require('./database');
+
+
 anomaly = {
     speed: [1, 2, 5, 1.4],
     deg: [10000, 10000, 10000, 10000.541]
 };
-const detectors = [];
 
 unifyReport = function (anomalies_full, ts) {
     const names = ts.getFeatureNames();
@@ -34,10 +37,12 @@ unifyReport = function (anomalies_full, ts) {
     return reports;
 };
 exports.removeModel = function (model_id) {
-    if (model_id < detectors.length)
-        detectors.splice(model_id, 1);
+    db.delete(model_id);
 };
 
+exports.loadDB = function () {
+    db.loadDatabase();
+};
 
 exports.createAd = function (type) {
     let ad;
@@ -49,44 +54,34 @@ exports.createAd = function (type) {
             ad = new SimpleAnomalyDetector();
             break;
         default:
-            break;
+            return;
     }
-    const now = new Date();
-    const timezoneOffset = now.getTimezoneOffset();
-    const offsetMs = timezoneOffset * 60 * 1000;
-    const timezoneoffsetstring = '+0' + timezoneOffset / -60 + '.00';
-    const dateLocal = new Date(now.getTime() - offsetMs).toISOString().replace('Z', timezoneoffsetstring);
-    const model = {
-        ad: ad,
-        model_id: detectors.length,
-        upload_time: dateLocal,
-        status: 'pending'
-    };
-    detectors.push(model);
-    return model;
+    const ans = db.insertModel(ad);
+    console.log(ans);
+    return ans;
 };
 
 exports.getModels = function () {
-    return detectors;
+    return db.getModels();
 };
 
 exports.train = function (data, model_id) {
     const ts = new TimeSeries(data);
-    detectors[model_id].ad.learnNormal(ts).then(() => {
-        detectors[model_id].status = 'ready';
+    const ad = db.getDetector(model_id);
+    console.log(ad);
+    ad.learnNormal(ts).then(() => {
+        db.update(model_id, ad);
     });
+};
 
-    exports.getModel = function (model_id) {
-        return detectors[model_id];
-    };
+exports.getModel = function (model_id) {
+    return db.getModels(model_id);
 };
 
 exports.detect = function (model_id, data) {
-    const model = detectors[model_id];
-    const ad = model.ad;
+    const ad = db.getDetector(model_id);
     const ts = new TimeSeries(data);
     const ans = ad.detect(ts);
-    console.log(ans);
-    if (ans)
+    if (ans.length)
         return unifyReport(ans, ts);
 };
