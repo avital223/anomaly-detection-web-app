@@ -15,22 +15,29 @@ function getTime() {
     return new Date(now.getTime() - offsetMs).toISOString().replace('Z', timezoneoffsetstring);
 }
 
-// todo not returns ID
-exports.insertModel = function (detector) {
+
+exports.insertModel = async function (detector) {
     const mod = {
         time: getTime(),
         status: 'pending',
-        detector: detector
+        detector: detector,
     };
-    return dataBase.insert(mod, function (err, doc) {
-        return doc._id;
+    console.log(mod.detector.detectorType);
+    let id;
+    await new Promise(function (resolve, reject) {
+        dataBase.insert(mod, function (err, doc) {
+            resolve(doc._id);
+        });
+    }).then((result) => {
+        id = result;
     });
+    return id;
 };
 
 exports.delete = function (id) {
     dataBase.remove({_id: id});
 };
-exports.update = function (id, detector) {
+exports.updateDetector = function (id, detector) {
     dataBase.update(
         {_id: id},
         {$set: {detector: detector, status: 'ready'}},
@@ -40,27 +47,49 @@ exports.update = function (id, detector) {
         }
     );
 };
-
-exports.getModels = function () {
-    const models = dataBase.find({});
-    let retModels = [];
-    models.forEach((u) => {
-        retModels.push({model_id: u._id, upload_time: u.time, status: u.status});
+exports.getModels = async function () {
+    let models;
+    await new Promise(function (resolve, reject) {
+        dataBase.find({}, function (err, doc) {
+            let mods = [];
+            doc.forEach(function (u) {
+                mods.push({model_id: u._id, upload_time: u.time, status: u.status});
+            })
+            resolve(mods);
+        })
+    }).then((result) => {
+        models = result;
     });
-    return retModels;
+    return models;
 };
 
-// todo doesn't returns a detector
-exports.getDetector = function (id) {
-    const model = dataBase.find({_id: id});
-    if (model.status === 'pending') {
-        return {};
-    }
+exports.getDetector = async function (id) {
+    let model;
+    await new Promise(function (resolve, reject) {
+        dataBase.findOne({_id: id}, function (error, docs) {
+            if (docs != null) {
+                resolve(docs);
+            } else
+                resolve({status: 'pending'});
+        });
+    }).then((result) => {
+        model = result;
+    });
+    // if (model.status === 'pending') {
+    //     return {};
+    // }
     return model.detector;
 };
 
-// todo should be getModel not getModels
-exports.getModels = function (id) {
-    const model = dataBase.find({_id: id});
-    return {model_id: model._id, upload_time: model.time, status: model.status};
+exports.getModel = async function (id) {
+    let _model;
+    await new Promise(function (resolve, reject) {
+        dataBase.findOne({_id: id}, function (err, model) {
+            resolve({model_id: model._id, upload_time: model.time, status: model.status});
+        });
+    }).then((result) => {
+        _model = result;
+    });
+    ;
+    return _model;
 };

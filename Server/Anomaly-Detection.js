@@ -49,15 +49,20 @@ exports.createAd = function (type) {
     switch (type) {
         case 'hybrid':
             ad = new HybridAnomalyDetector();
+            type = "HybridAnomalyDetector"
             break;
         case 'regression':
             ad = new SimpleAnomalyDetector();
+            type = "SimpleAnomalyDetector"
             break;
         default:
             return;
     }
-    const ans = db.insertModel(ad);
-    console.log(ans);
+    console.log(ad);
+    let ans;
+    db.insertModel({detector: ad, detectorType: type}).then((result) => {
+        ans = result;
+    });
     return ans;
 };
 
@@ -65,12 +70,23 @@ exports.getModels = function () {
     return db.getModels();
 };
 
-exports.train = function (data, model_id) {
+exports.train = async function (data, model_id) {
     const ts = new TimeSeries(data);
-    const ad = db.getDetector(model_id);
+    let detect = await db.getDetector(model_id);
+    let ad;
+    switch (detect.detectorType) {
+        case 'hybrid':
+            ad = new HybridAnomalyDetector();
+            break;
+        case 'regression':
+            ad = new SimpleAnomalyDetector();
+            break;
+        default:
+            return;
+    }
     console.log(ad);
     ad.learnNormal(ts).then(() => {
-        db.update(model_id, ad);
+        db.updateDetector(model_id, ad);
     });
 };
 
@@ -78,8 +94,8 @@ exports.getModel = function (model_id) {
     return db.getModels(model_id);
 };
 
-exports.detect = function (model_id, data) {
-    const ad = db.getDetector(model_id);
+exports.detect = async function (model_id, data) {
+    let ad = await db.getDetector(model_id)
     const ts = new TimeSeries(data);
     const ans = ad.detect(ts);
     if (ans.length)

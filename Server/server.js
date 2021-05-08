@@ -29,8 +29,10 @@ app.post('/api/model', (req, res) => {
         return;
     }
     const model = Anomaly.createAd(type);
-    const id = '64qBMmCg133iPVT2';
-    Anomaly.train(req.body, id);
+    const id = 'mTwsLLRf0qhqjOj0';
+    Anomaly.train(req.body, id).then(() => {
+        console.log("here 1");
+    });
     res.json(Anomaly.getModel(id));
 });
 
