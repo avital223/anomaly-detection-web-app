@@ -3,11 +3,14 @@ const TimeSeries = require('./TimeSeries');
 const HybridAnomalyDetector = require('./HybridAnomalyDetector');
 
 const SimpleAnomalyDetector = require('./SimpleAnomalyDetector');
+
+const db = require('./database');
+
+
 anomaly = {
     speed: [1, 2, 5, 1.4],
     deg: [10000, 10000, 10000, 10000.541]
 };
-const detectors = [];
 
 unifyReport = function (anomalies_full, ts) {
     const names = ts.getFeatureNames();
@@ -34,14 +37,44 @@ unifyReport = function (anomalies_full, ts) {
     return reports;
 };
 exports.removeModel = function (model_id) {
-    if (model_id < detectors.length)
-        detectors.splice(model_id, 1);
+    db.delete(model_id);
 };
 
+exports.loadDB = function () {
+    db.loadDatabase();
+};
 
 exports.createAd = function (type) {
     let ad;
     switch (type) {
+        case 'hybrid':
+            ad = new HybridAnomalyDetector();
+            type = "HybridAnomalyDetector"
+            break;
+        case 'regression':
+            ad = new SimpleAnomalyDetector();
+            type = "SimpleAnomalyDetector"
+            break;
+        default:
+            return;
+    }
+    console.log(ad);
+    let ans;
+    db.insertModel({detector: ad, detectorType: type}).then((result) => {
+        ans = result;
+    });
+    return ans;
+};
+
+exports.getModels = function () {
+    return db.getModels();
+};
+
+exports.train = async function (data, model_id) {
+    const ts = new TimeSeries(data);
+    let detect = await db.getDetector(model_id);
+    let ad;
+    switch (detect.detectorType) {
         case 'hybrid':
             ad = new HybridAnomalyDetector();
             break;
@@ -49,44 +82,22 @@ exports.createAd = function (type) {
             ad = new SimpleAnomalyDetector();
             break;
         default:
-            break;
+            return;
     }
-    const now = new Date();
-    const timezoneOffset = now.getTimezoneOffset();
-    const offsetMs = timezoneOffset * 60 * 1000;
-    const timezoneoffsetstring = '+0' + timezoneOffset / -60 + '.00';
-    const dateLocal = new Date(now.getTime() - offsetMs).toISOString().replace('Z', timezoneoffsetstring);
-    const model = {
-        ad: ad,
-        model_id: detectors.length,
-        upload_time: dateLocal,
-        status: 'pending'
-    };
-    detectors.push(model);
-    return model;
-};
-
-exports.getModels = function () {
-    return detectors;
-};
-
-exports.train = function (data, model_id) {
-    const ts = new TimeSeries(data);
-    detectors[model_id].ad.learnNormal(ts).then(() => {
-        detectors[model_id].status = 'ready';
+    console.log(ad);
+    ad.learnNormal(ts).then(() => {
+        db.updateDetector(model_id, ad);
     });
-
-    exports.getModel = function (model_id) {
-        return detectors[model_id];
-    };
 };
 
-exports.detect = function (model_id, data) {
-    const model = detectors[model_id];
-    const ad = model.ad;
+exports.getModel = function (model_id) {
+    return db.getModels(model_id);
+};
+
+exports.detect = async function (model_id, data) {
+    let ad = await db.getDetector(model_id)
     const ts = new TimeSeries(data);
     const ans = ad.detect(ts);
-    console.log(ans);
-    if (ans)
+    if (ans.length)
         return unifyReport(ans, ts);
 };

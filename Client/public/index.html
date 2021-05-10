@@ -1,18 +1,18 @@
 <!DOCTYPE html>
 <html lang="en">
 
-<!--<script>-->
-<!--    function myFunction(){-->
-<!--        var tbl = document.getElementById("myTable");-->
-<!--        var row = tbl.insertRow();-->
-<!--        var cell1 = row.insertCell();-->
-<!--        var cell2 = row.insertCell();-->
-<!--        var cell3 = row.insertCell();-->
-<!--        cell1.innerHTML = "Michelle";-->
-<!--        cell2.innerHTML = "Rabkin"-->
-<!--        cell3.innerHTML = "24"-->
-<!--    }-->
-<!--</script>-->
+<script>
+   function myFunction(){-->
+        var tbl = document.getElementById("myTable");
+        var row = tbl.insertRow();
+        var cell1 = row.insertCell();
+        var cell2 = row.insertCell();
+        var cell3 = row.insertCell();
+        cell1.innerHTML = "Michelle";
+        cell2.innerHTML = "Rabkin"
+        cell3.innerHTML = "24"
+    }
+  </script>
 
 
 
@@ -169,8 +169,8 @@
     };
 
     let type = 'hybrid';
-    fetch('/api/model?model_type=' + type, optionPost);
-    fetch('/api/model?model_id=1').then(res => {
+    fetch(`/api/model?model_type=${type}`, optionPost);
+    fetch('/api/model?model_id=AVCwGTgaZpn1qvBu').then(res => {
         if (res.ok) {
             res.json().then(console.log);
         } else
@@ -179,16 +179,10 @@
 
     // fetch('/api/model?model_id=2', optionDelete);
     // fetch('/api/models').then(res => res.json()).then(console.log);
-    fetch('/api/models?model_id=0', optionPostDetect).then(res => res.json()).then(console.log);
+    fetch('/api/models?model_id=AVCwGTgaZpn1qvBu', optionPostDetect).then(res => res.json()).then(console.log);
 
 </script>
 
-
-
-
-
-
-<!--<h1>Hello world</h1>-->
 </body>
 
 </html>
