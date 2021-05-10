@@ -1,21 +1,5 @@
 <!DOCTYPE html>
 <html lang="en">
-
-<script>
-   function myFunction(){-->
-        var tbl = document.getElementById("myTable");
-        var row = tbl.insertRow();
-        var cell1 = row.insertCell();
-        var cell2 = row.insertCell();
-        var cell3 = row.insertCell();
-        cell1.innerHTML = "Michelle";
-        cell2.innerHTML = "Rabkin"
-        cell3.innerHTML = "24"
-    }
-  </script>
-
-
-
 <head>
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta charset="utf-8">
@@ -29,105 +13,7 @@
     </style>
 </head>
 
-<body>
-<canvas id="myChart" width="400" height="400"></canvas>
 <script>
-    var ctx = document.getElementById('myChart').getContext('2d');
-    var myChart = new Chart(ctx, {
-        type: 'bar',
-        data: {
-            labels: ['Red', 'Blue', 'Yellow', 'Green', 'Purple', 'Orange'],
-            datasets: [{
-                label: '# of Votes',
-                data: [12, 19, 3, 5, 2, 3],
-                backgroundColor: [
-                    'rgba(255, 99, 132, 0.2)',
-                    'rgba(54, 162, 235, 0.2)',
-                    'rgba(255, 206, 86, 0.2)',
-                    'rgba(75, 192, 192, 0.2)',
-                    'rgba(153, 102, 255, 0.2)',
-                    'rgba(255, 159, 64, 0.2)'
-                ],
-                borderColor: [
-                    'rgba(255, 99, 132, 1)',
-                    'rgba(54, 162, 235, 1)',
-                    'rgba(255, 206, 86, 1)',
-                    'rgba(75, 192, 192, 1)',
-                    'rgba(153, 102, 255, 1)',
-                    'rgba(255, 159, 64, 1)'
-                ],
-                borderWidth: 1
-            }]
-        },
-        options: {
-            scales: {
-                y: {
-                    beginAtZero: true
-                }
-            }
-        }
-    });
-</script>
-<script src="table.js"></script>
-
-<!--<table class="table table-striped">-->
-<!--    <tr  class="bg-info">-->
-<!--        <th>Name</th>-->
-<!--        <th>Age</th>-->
-<!--        <th>Birthday</th>-->
-<!--    </tr>-->
-
-<!--    <tbody id="myTable">-->
-
-<!--    </tbody>-->
-<!--</table>-->
-
-<!--<table>-->
-<!--    <thead>-->
-<!--    <tr>-->
-<!--        <th> Rank</th>-->
-<!--        <th> FirstName</th>-->
-<!--        <th> SecondName</th>-->
-<!--    </tr>-->
-<!--    </thead>-->
-<!--    <tbody id="table-body">-->
-
-<!--    </tbody>-->
-<!--</table>-->
-
-
-<input type="button" value="Add to table" onclick="myFunction();"/>
-<h1> Students Table</h1>
-<table border="1" id = "myTable">
-    <!--The row number 0 -->
-    <tr>
-             <th> First_Name</th>
-             <th> Second_name</th>
-             <th> Age </th>
-    </tr>
-    <!--End row number 0 -->
-    <tr>
-        <td> Michelle</td>
-        <td> Rabkin</td>
-        <td> 24</td>
-    </tr>
-    <tr>
-        <td> Avitusik</td>
-        <td> Livshitz</td>
-        <td> 22</td>
-    </tr>
-</table>
-
-
-<ul id = "tableData" class=" = "table>
-
-
-</ul>
-
-<script>
-    var array = [[ "Michelle", "Rabkin", "24"],
-                 [ "Avitusik", "Livshits", "22"]]
-             table = document.getElementById("myTable");
 
     /* Method 1 -
     //rows

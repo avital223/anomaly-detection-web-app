@@ -37,3 +37,4 @@
 {"time":"2021-05-08T16:25:25.469+03.00","status":"pending","detector":{"correlations":[],"correlationThreshold":0.9},"_id":"ydrg04dtoHFNHovv"}
 {"time":"2021-05-08T17:04:25.394+03.00","status":"pending","detector":{"correlations":[],"correlationThreshold":0.9},"_id":"zJhtFMRXPWEW3ZKe"}
 {"time":"2021-05-08T16:18:49.037+03.00","status":"pending","detector":{"correlations":[],"correlationThreshold":0.9},"_id":"zVbG727T9CMoorPq"}
+{"time":"2021-05-10T10:22:14.283+03.00","status":"pending","detector":{"detector":{"correlations":[],"correlationThreshold":0.9},"detectorType":"HybridAnomalyDetector"},"_id":"BqhqMAhgUVmuIT9N"}

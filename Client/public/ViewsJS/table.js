@@ -25,15 +25,7 @@ const tableData = [
     }
     ]
 
-
-
-
-// for (const i in tableData){
-//     const row = <tr>
-//         <td>${tableData[i].rank}</td>
-//         <td>${tableData[i].firstName}</td>
-//         <td>${tableData[i].lastName}</td>
-//     </tr>
-//    const table = $('#table-body')
-//     table.append(row)
-// }
+//
+var array = [[ "Michelle", "Rabkin", "24"],
+    [ "Avitusik", "Livshits", "22"]]
+table = document.getElementById("myTable");
