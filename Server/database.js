@@ -16,13 +16,12 @@ function getTime() {
 }
 
 
-exports.insertModel = async function (detector) {
+exports.insertModel = async function (type) {
     const mod = {
         time: getTime(),
         status: 'pending',
-        detector: detector,
+        type: type,
     };
-    console.log(mod.detector.detectorType);
     let id;
     await new Promise(function (resolve, reject) {
         dataBase.insert(mod, function (err, doc) {
@@ -54,9 +53,9 @@ exports.getModels = async function () {
             let mods = [];
             doc.forEach(function (u) {
                 mods.push({model_id: u._id, upload_time: u.time, status: u.status});
-            })
+            });
             resolve(mods);
-        })
+        });
     }).then((result) => {
         models = result;
     });
@@ -78,7 +77,7 @@ exports.getDetector = async function (id) {
     // if (model.status === 'pending') {
     //     return {};
     // }
-    return model.detector;
+    return {detector: model.detector, type: model.type};
 };
 
 exports.getModel = async function (id) {
@@ -90,6 +89,5 @@ exports.getModel = async function (id) {
     }).then((result) => {
         _model = result;
     });
-    ;
     return _model;
 };

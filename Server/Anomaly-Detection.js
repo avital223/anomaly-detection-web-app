@@ -44,58 +44,44 @@ exports.loadDB = function () {
     db.loadDatabase();
 };
 
-exports.createAd = function (type) {
-    let ad;
+exports.insertAd = async function (type) {
+    return db.insertModel({detectorType: type}).then(result => result);
+};
+
+createAd = function (type, detector) {
     switch (type) {
         case 'hybrid':
-            ad = new HybridAnomalyDetector();
-            type = "HybridAnomalyDetector"
-            break;
+            return new HybridAnomalyDetector(detector);
         case 'regression':
-            ad = new SimpleAnomalyDetector();
-            type = "SimpleAnomalyDetector"
-            break;
+            return new SimpleAnomalyDetector(detector);
         default:
             return;
     }
-    console.log(ad);
-    let ans;
-    db.insertModel({detector: ad, detectorType: type}).then((result) => {
-        ans = result;
-    });
-    return ans;
 };
 
 exports.getModels = function () {
-    return db.getModels();
+    return db.getModels().then(models => models);
 };
 
 exports.train = async function (data, model_id) {
     const ts = new TimeSeries(data);
-    let detect = await db.getDetector(model_id);
-    let ad;
-    switch (detect.detectorType) {
-        case 'hybrid':
-            ad = new HybridAnomalyDetector();
-            break;
-        case 'regression':
-            ad = new SimpleAnomalyDetector();
-            break;
-        default:
-            return;
-    }
-    console.log(ad);
+    let ad = await db.getDetector(model_id);
+    ad = createAd(ad.type.detectorType);
     ad.learnNormal(ts).then(() => {
         db.updateDetector(model_id, ad);
     });
 };
 
 exports.getModel = function (model_id) {
-    return db.getModels(model_id);
+    if (model_id)
+        return db.getModel(model_id);
 };
 
 exports.detect = async function (model_id, data) {
-    let ad = await db.getDetector(model_id)
+    let ad = await db.getDetector(model_id);
+    console.log(ad);
+    console.log(model_id);
+    ad = createAd(ad.type.detectorType, ad.detector);
     const ts = new TimeSeries(data);
     const ans = ad.detect(ts);
     if (ans.length)

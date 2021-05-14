@@ -6,19 +6,20 @@ const app = express();
 app.use(express.json({limit: '1mb'}));
 
 app.get('/api/model', (req, res) => {
-    const model_id = parseInt(req.query.model_id);
-    console.log('here');
-    const model = Anomaly.getModel(model_id);
-    if (model)
-        res.json(model);
-    else {
-        res.status(499).send('no model found');
-        res.end();
-    }
+    const model_id = req.query.model_id;
+    console.log(model_id);
+    Anomaly.getModel(model_id).then((model) => {
+        if (model)
+            res.json(model);
+        else {
+            res.status(499).send('no model found');
+            res.end();
+        }
+    });
 });
 
 app.get('/api/models', (req, res) => {
-    res.json({models: Anomaly.getModels()});
+    Anomaly.getModels().then(models => res.json({models: models}));
 });
 
 
@@ -28,28 +29,31 @@ app.post('/api/model', (req, res) => {
         res.status(401).send({error: 'only hybrid and reg supported'});
         return;
     }
-    const model = Anomaly.createAd(type);
-    const id = 'mTwsLLRf0qhqjOj0';
-    Anomaly.train(req.body, id).then(() => {
-        console.log("here 1");
+    Anomaly.insertAd(type).then((id) => {
+        Anomaly.train(req.body, id).then(() => {
+            Anomaly.getModel(id).then(model => {
+                res.json(model);
+            });
+        });
     });
-    res.json(Anomaly.getModel(id));
 });
 
-app.post('/api/models', (req, res) => {
-    const model_id = parseInt(req.query.model_id);
+app.post('/api/anomaly', (req, res) => {
+    const model_id = req.query.model_id;
     const data = req.body;
-    const model = Anomaly.getModel(model_id);
-    if (model.status === 'pending') {
-        res.redirect(302, '/api/model');
-        return;
-    }
-    res.json({anomalies: Anomaly.detect(model_id, data)});
+    Anomaly.getModel(model_id).then(model => {
+            if (model.status === 'pending') {
+                res.redirect(302, `/api/model?model_id=${model_id}`);
+                return;
+            }
+            Anomaly.detect(model_id, data).then(anomalies => res.json({anomalies: anomalies}));
+        }
+    );
 });
 
 
 app.delete('/api/model', (req, res) => {
-    const model_id = parseInt(req.query.model_id);
+    const model_id = req.query.model_id;
     Anomaly.removeModel(model_id);
 });
 
