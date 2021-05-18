@@ -4,8 +4,8 @@ const SimpleAnomalyDetector = require('./SimpleAnomalyDetector');
 
 class HybridAnomalyDetector extends SimpleAnomalyDetector {
 
-    constructor() {
-        super();
+    constructor(detector) {
+        super(detector);
     }
 
     toPush(cf) {

@@ -3,12 +3,17 @@ const util = require('./anomaly_detection_util');
 
 class SimpleAnomalyDetector {
 
-    constructor() {
-        this.correlations = [];
-        this.correlationThreshold = 0.9;
+    constructor(detector) {
+        if (detector) {
+            this.correlations = [...detector.correlations];
+            this.correlationThreshold = detector.correlationThreshold;
+        } else {
+            this.correlations = [];
+            this.correlationThreshold = 0.9;
+        }
     }
 
-    // virtual vector<AnomalyReport>    
+    // virtual vector<AnomalyReport>
     detect(ts) {
         const anomalyReport = [];
         for (const cf of this.correlations) {
@@ -101,18 +106,15 @@ class SimpleAnomalyDetector {
 
     //virtual void 
     async learnNormal(ts) {
-        return new Promise(resolve => {
-            const features = ts.getFeatureNames();
-            /* runs from the first feature to the one before last no need to check the
-             last one as i check them in pairs */
-            for (let i = 0; i < features.length - 1; i++) {
-                const cf = this.getMaxCorr(ts, features, i);
-                if (this.toPush(cf)) {
-                    this.createCorrelatedFeatures(ts, cf, i);
-                }
+        const features = ts.getFeatureNames();
+        /* runs from the first feature to the one before last no need to check the
+         last one as i check them in pairs */
+        for (let i = 0; i < features.length - 1; i++) {
+            const cf = this.getMaxCorr(ts, features, i);
+            if (this.toPush(cf)) {
+                this.createCorrelatedFeatures(ts, cf, i);
             }
-            setTimeout(() => resolve(), 5000);
-        });
+        }
     }
 }
 
