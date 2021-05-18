@@ -12,74 +12,19 @@
         }
     </style>
 </head>
+<input type="text" id="ID">
+<select id="type">
+    <option value="hybrid">hybrid</option>
+    <option value="regression">regression</option>
+</select>
 
-<script>
-
-    /* Method 1 -
-    //rows
-    for(var i = 1; i < table.rows.length; i++){
-        //cells
-        for( var j = 0; j < table.rows[i].cells.length; j++)
-        {
-            table.rows[i].cells[j].innerHTML = array[i-1][j];
-        }
-    }
-    */
-
-    const data = {
-        speed: [1, 2, 3, 4],
-        deg: [2, 4, 6, 8]
-    };
-    const data1 = {
-        speed: [1, 2, 3, 4],
-        deg: [10, 31, 72, 641]
-    };
-
-    const optionPost = {
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/json'
-        },
-        body: JSON.stringify(data)
-    };
-    const optionPostDetect = {
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/json'
-        },
-        body: JSON.stringify(data1)
-    };
-
-    const optionDelete = {
-        method: 'DELETE'
-    };
-
-    let type = 'hybrid';
-    let id;
-    fetch(`/api/model?model_type=${type}`, optionPost).then(res => res.json()).then(model => id = model.model_id);
-
-    setTimeout(() => fetch(`/api/model?model_id=${id}`).then(res => {
-            if (res.ok) {
-                res.json().then(console.log);
-            } else
-                res.text().then(console.log);
-        }),
-        2500);
-
-    // fetch('/api/model?model_id=z4lbLNPKvKJHDlMV').then(res => {
-    //     if (res.ok) {
-    //         res.json().then(consolx` e.log);
-    //     } else
-    //         res.text().then(console.log);
-    // });
-
-    // fetch('/api/model?model_id=2', optionDelete);
-    fetch('/api/models').then(res => res.json()).then(console.log);
-    setTimeout(() => fetch(`/api/anomaly?model_id=${id}`, optionPostDetect).then(res => res.json()).then(console.log),
-        5000);
-
+<input type="button" onclick="addNewModel(document.getElementById('type').value)" value="add">
+<input type="button" onclick="getDetectorByID(document.getElementById('ID').value)" value="get">
+<input type="button" onclick="getModels()" value="models">
+<input type="button" onclick="detect(document.getElementById('ID').value)" value="detect">
+<input type="button" onclick="deleteModelByID(document.getElementById('ID').value)" value="delete">
+<script type="text/javascript" src="serverContact.js">
 </script>
-
 </body>
 
 </html>

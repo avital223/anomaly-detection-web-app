@@ -42,7 +42,9 @@ app.post('/api/anomaly', (req, res) => {
     const model_id = req.query.model_id;
     const data = req.body;
     Anomaly.getModel(model_id).then(model => {
+
             if (model.status === 'pending') {
+
                 res.redirect(302, `/api/model?model_id=${model_id}`);
                 return;
             }
