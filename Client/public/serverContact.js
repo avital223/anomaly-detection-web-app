@@ -1,26 +1,8 @@
-const data = {
-    speed: [1, 2, 3, 4],
-    deg: [2, 4, 6, 8]
-};
-const data1 = {
-    speed: [1, 2, 3, 4],
-    deg: [10, 31, 72, 641]
-};
 
-const optionPost = {
-    method: 'POST',
-    headers: {
-        'Content-Type': 'application/json'
-    },
-    body: JSON.stringify(data)
-};
-const optionPostDetect = {
-    method: 'POST',
-    headers: {
-        'Content-Type': 'application/json'
-    },
-    body: JSON.stringify(data1)
-};
+
+
+
+
 
 const optionDelete = {
     method: 'DELETE'
@@ -29,19 +11,26 @@ const optionDelete = {
 let type = 'hybrid';
 let id;
 
-addNewModel = function (type) {
-    fetch(`/api/model?model_type=${type}`, optionPost).then(res => res.json()).then(model => id = model.model_id);
-
-
+addNewModel = function (type, data) {
+    const optionPost = {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(data)
+    };
+    fetch(`/api/model?model_type=${type}`, optionPost).then(res => res.json()).then(model => {
+        id = model.model_id;
+        console.log(id);
+    });
 }
 getDetectorByID = function (id) {
-    setTimeout(() => fetch(`/api/model?model_id=${id}`).then(res => {
-            if (res.ok) {
-                res.json().then(console.log);
-            } else
-                res.text().then(console.log);
-        }),
-        2500);
+    fetch(`/api/model?model_id=${id}`).then(res => {
+        if (res.ok) {
+            res.json().then(console.log);
+        } else
+            res.text().then(console.log);
+    })
 
 }
 deleteModelByID = function (id) {
@@ -62,12 +51,19 @@ printRes = function (result) {
     }
 }
 
-detect = function (id) {
-    setTimeout(() => fetch(`/api/anomaly?model_id=${id}`, optionPostDetect).then(res => {
-            if (res.ok) {
-                res.json().then(console.log);
-            } else
-                res.text().then(console.log);
-        }),
-        5000);
+detect = function (id, data) {
+
+    const optionPostDetect = {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(data)
+    };
+    fetch(`/api/anomaly?model_id=${id}`, optionPostDetect).then(res => {
+        if (res.ok) {
+            res.json().then(console.log);
+        } else
+            res.text().then(console.log);
+    })
 }
