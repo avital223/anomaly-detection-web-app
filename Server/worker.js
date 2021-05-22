@@ -42,11 +42,10 @@ async function train(data, model_id) {
 }
 
 async function detect(data, model_id) {
+    const ts = new TimeSeries(data);
     let ad = await db.getDetector(model_id);
     ad = createAd(ad.type.detectorType, ad.detector);
-    const ts = new TimeSeries(data);
-    const ans = ad.detect(ts);
-    // console.log(ans);
+    const ans = await ad.detect(ts);
     const names = ts.getFeatureNames();
     return {ans, names};
 }

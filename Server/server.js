@@ -1,22 +1,15 @@
 const express = require('express');
 //Create new worker
 const Anomaly = require('./Anomaly-Detection');
+const queue = require('express-queue');
 // const data = require('../Client/public/helloworld.json');
 // const data = require('../helloworld.json');
 const app = express();
 app.use(express.json());
 
-
 app.get('/api/model', (req, res) => {
     const model_id = req.query.model_id;
-    Anomaly.getModel(model_id).then((model) => {
-        if (model)
-            res.json(model);
-        else {
-            res.status(499).send('no model found');
-            res.end();
-        }
-    });
+    Anomaly.getModel(model_id).then(model => res.json(model)).catch(reason => res.status(400).send({error: reason}));
 });
 
 app.get('/api/models', (req, res) => {
@@ -24,10 +17,10 @@ app.get('/api/models', (req, res) => {
 });
 
 
-app.post('/api/model', (req, res) => {
+app.post('/api/model', queue({activeLimit: 10, queuedLimit: 10}), (req, res) => {
     const type = req.query.model_type;
     if (type !== 'hybrid' && type !== 'regression') {
-        res.status(401).send({error: 'only hybrid and reg supported'});
+        res.status(400).send({error: 'only hybrid and regression supported'});
         return;
     }
     const data = req.body;
@@ -38,17 +31,14 @@ app.post('/api/model', (req, res) => {
 });
 
 
-app.post('/api/anomaly', (req, res) => {
+app.post('/api/anomaly', queue({activeLimit: 10, queuedLimit: 10}), (req, res) => {
     const model_id = req.query.model_id;
     const data = req.body;
     Anomaly.getModel(model_id).then(async model => {
-        if (model.status === 'pending') {
-            res.redirect(302, `/api/model?model_id=${model_id}`);
-            return;
-
+        if (model.status === 'ready') {
+            Anomaly.detect(model_id, data, result => res.json(result));
         }
-        Anomaly.detect(model_id, data, result => res.json(result));
-    });
+    }).catch(resp => res.redirect(302, `/api/model?model_id=${model_id}`));
 });
 
 

@@ -63,8 +63,7 @@ exports.train = async function (data, model_id) {
 };
 
 exports.getModel = function (model_id) {
-    if (model_id)
-        return db.getModel(model_id);
+    return db.getModel(model_id);
 };
 
 

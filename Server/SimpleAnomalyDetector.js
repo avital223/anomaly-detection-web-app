@@ -14,7 +14,7 @@ class SimpleAnomalyDetector {
     }
 
     // virtual vector<AnomalyReport>
-    detect(ts) {
+    async detect(ts) {
         const anomalyReport = [];
         for (const cf of this.correlations) {
             const feature1 = ts.getFeatureData(cf.feature1);
