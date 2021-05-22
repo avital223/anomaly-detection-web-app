@@ -1,3 +1,4 @@
+
 {"time":"2021-05-10T12:12:09.116+03.00","status":"pending","type":{"detectorType":"hybrid"},"_id":"2F6YzN6kp43E6upJ"}
 {"time":"2021-05-10T12:10:13.112+03.00","status":"pending","type":{"detectorType":"hybrid"},"_id":"HaHn3LNUqyBKTujp"}
 {"time":"2021-05-10T12:11:03.016+03.00","status":"ready","type":{"detectorType":"hybrid"},"_id":"UxsbAKUEK9nnfhVU","detector":{"correlations":[{"feature1":"speed","feature2":"deg","correlation":1,"line_reg":{"a":2,"b":0},"threshold":0}],"correlationThreshold":0.9}}
