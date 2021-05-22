@@ -84,7 +84,7 @@ exports.getModel = async function (id) {
     let _model;
     await new Promise(function (resolve, reject) {
         dataBase.findOne({_id: id}, function (err, model) {
-            resolve({model_id: model._id, upload_time: model.time, status: model.status});
+            resolve({model_id: model._id, upload_time: model.time, status: model.status, ad: model.detector.correlations});
         });
     }).then((result) => {
         _model = result;

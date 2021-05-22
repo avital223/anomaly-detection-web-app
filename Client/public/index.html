@@ -4,7 +4,8 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta charset="utf-8">
     <title>tests</title>
-    <script src="https://cdn.jsdelivr.net/npm/chart.js@3.2.1/dist/chart.min.js "></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.2.0/chart.min.js"></script>
+
 
     <style>
         table, th, td {
@@ -12,19 +13,106 @@
         }
     </style>
 </head>
-<input type="text" id="ID">
-<select id="type">
+<body>
+<label for="ID"></label><input type="text" id="ID">
+<label for="type"></label><select id="type">
     <option value="hybrid">hybrid</option>
     <option value="regression">regression</option>
 </select>
 
-<input type="button" onclick="addNewModel(document.getElementById('type').value)" value="add">
+<input type="button" onclick="addNewModel(document.getElementById('type').value, data)" value="add">
 <input type="button" onclick="getDetectorByID(document.getElementById('ID').value)" value="get">
 <input type="button" onclick="getModels()" value="models">
-<input type="button" onclick="detect(document.getElementById('ID').value)" value="detect">
+<input type="button" onclick="detect(document.getElementById('ID').value, data1)" value="detect">
 <input type="button" onclick="deleteModelByID(document.getElementById('ID').value)" value="delete">
-<script type="text/javascript" src="serverContact.js">
-</script>
+<script type="text/javascript" src="serverContact.js"></script>
 </body>
+
+<div>
+    <h1>LINE CHART</h1>
+</div>
+
+
+<canvas id="myChart" width="400" height="400"
+        style="border: solid"
+></canvas>
+<script>
+
+    const data = {
+        speed: [1, 2, 3, 4],
+        deg: [2, 4, 6, 8]
+    };
+
+    const data1 = {
+        speed: [1, 2, 3, 4],
+        deg: [10, 31, 72, 641]
+    };
+    const ctx = document.getElementById('myChart').getContext('2d');
+    const myChart = new Chart(ctx, {
+        type: 'line',
+        title: {
+            text: "Simple Line Chart"
+        },
+        data: {
+            labels: ["A", "B", "C", "D"],
+            datasets: [
+                {
+                    data: [10, 20, 30, 40],
+                    label: "property_name",
+                    fill: false,
+                    pointBackgroundColor: "red",
+                    pointBorderColor: "red",
+                    pointHoverBorderColor: "black",
+                    pointRadius: 10,
+                    pointHitRadius: 10,
+                    borderColor: [
+                        'rgba(255, 99, 132, 1)',
+                        'rgba(54, 162, 235, 1)',
+                        'rgba(255, 206, 86, 1)',
+                        'rgba(75, 192, 192, 1)',
+                        'rgba(153, 102, 255, 1)',
+                        'rgba(255, 159, 64, 1)'
+                    ],
+                    borderWidth: 1,
+                    backgroundColor: "red",
+                }]
+        },
+
+        options:
+            {
+                scales: {
+                    x: {
+                        stacked: true,
+                        title: {
+                            color: 'red',
+                            text: 'TIME',
+                            display: true,
+                        },
+                    }
+                }
+            }
+    });
+</script>
+
+<h1> Students Table</h1>
+<table border="10" id="myTable" style="background: aquamarine ">
+    <!--The row number 0 -->
+    <tr>
+        <th> First_Name</th>
+        <th> Second_name</th>
+        <th> Age</th>
+    </tr>
+    <!--End row number 0 -->
+    <tr>
+        <td> Michelle</td>
+        <td> Rabkin</td>
+        <td> 24</td>
+    </tr>
+    <tr>
+        <td> Avitusik</td>
+        <td> Livshitz</td>
+        <td> 22</td>
+    </tr>
+</table>
 
 </html>
