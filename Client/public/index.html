@@ -8,12 +8,59 @@
 
 
     <style>
-        table, th, td {
+        table {
+            height: 50%;
+            width: 75%;
+        }
+
+        td {
             border: 1px solid black;
+        }
+
+        .Charts_td {
+            width: 75%;
         }
     </style>
 </head>
 <body>
+
+<table>
+    <tr>
+        <td id="charts" class="Charts_td">
+            <h1>LINE CHART</h1>
+            <canvas id="myChart" width="400" height="400"
+                    style="border: solid"></canvas>
+        </td>
+        <td>Savings</td>
+    </tr>
+    <tr>
+        <td>
+            <h5> Students Table</h5>
+            <table border="10" id="myTable" style="background: aquamarine ">
+                <!--The row number 0 -->
+                <tr>
+                    <th> First_Name</th>
+                    <th> Second_name</th>
+                    <th> Age</th>
+                </tr>
+                <!--End row number 0 -->
+                <tr>
+                    <td> Michelle</td>
+                    <td> Rabkin</td>
+                    <td> 24</td>
+                </tr>
+                <tr>
+                    <td> Avitusik</td>
+                    <td> Livshitz</td>
+                    <td> 22</td>
+                </tr>
+            </table>
+
+
+        </td>
+        <td>$100</td>
+    </tr>
+</table>
 <label for="ID"></label><input type="text" id="ID">
 <label for="type"></label><select id="type">
     <option value="hybrid">hybrid</option>
@@ -28,14 +75,8 @@
 <script type="text/javascript" src="serverContact.js"></script>
 </body>
 
-<div>
-    <h1>LINE CHART</h1>
-</div>
 
 
-<canvas id="myChart" width="400" height="400"
-        style="border: solid"
-></canvas>
 <script>
 
     const data = {
@@ -45,24 +86,27 @@
 
     const data1 = {
         speed: [1, 2, 3, 4],
-        deg: [10, 31, 72, 641]
+        deg: [10, 15, 31, 0]
     };
+    const labels = Array.from(Array(data.speed.length).keys()).map(v => v + 1);
+    console.log(labels);
+
     const ctx = document.getElementById('myChart').getContext('2d');
     const myChart = new Chart(ctx, {
         type: 'line',
         title: {
-            text: "Simple Line Chart"
+            text: 'Simple Line Chart'
         },
         data: {
-            labels: ["A", "B", "C", "D"],
+            labels: labels,
             datasets: [
                 {
-                    data: [10, 20, 30, 40],
-                    label: "property_name",
+                    data: data1.speed,
+                    label: 'speed',
                     fill: false,
-                    pointBackgroundColor: "red",
-                    pointBorderColor: "red",
-                    pointHoverBorderColor: "black",
+                    pointBackgroundColor: 'red',
+                    pointBorderColor: 'red',
+                    pointHoverBorderColor: 'black',
                     pointRadius: 10,
                     pointHitRadius: 10,
                     borderColor: [
@@ -74,8 +118,28 @@
                         'rgba(255, 159, 64, 1)'
                     ],
                     borderWidth: 1,
-                    backgroundColor: "red",
-                }]
+                    backgroundColor: 'red',
+                }, {
+                    data: data1.deg,
+                    label: 'deg',
+                    fill: false,
+                    pointBackgroundColor: 'blue',
+                    pointBorderColor: 'blue',
+                    pointHoverBorderColor: 'black',
+                    pointRadius: 10,
+                    pointHitRadius: 10,
+                    borderColor: [
+                        'rgba(255, 99, 132, 1)',
+                        'rgba(54, 162, 235, 1)',
+                        'rgba(255, 206, 86, 1)',
+                        'rgba(75, 192, 192, 1)',
+                        'rgba(153, 102, 255, 1)',
+                        'rgba(255, 159, 64, 1)'
+                    ],
+                    borderWidth: 1,
+                    backgroundColor: 'blue',
+                },
+            ]
         },
 
         options:
@@ -94,25 +158,5 @@
     });
 </script>
 
-<h1> Students Table</h1>
-<table border="10" id="myTable" style="background: aquamarine ">
-    <!--The row number 0 -->
-    <tr>
-        <th> First_Name</th>
-        <th> Second_name</th>
-        <th> Age</th>
-    </tr>
-    <!--End row number 0 -->
-    <tr>
-        <td> Michelle</td>
-        <td> Rabkin</td>
-        <td> 24</td>
-    </tr>
-    <tr>
-        <td> Avitusik</td>
-        <td> Livshitz</td>
-        <td> 22</td>
-    </tr>
-</table>
 
 </html>

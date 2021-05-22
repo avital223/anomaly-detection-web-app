@@ -23,7 +23,7 @@ addNewModel = function (type, data) {
         id = model.model_id;
         console.log(id);
     });
-}
+};
 getDetectorByID = function (id) {
     fetch(`/api/model?model_id=${id}`).then(res => {
         if (res.ok) {
@@ -32,24 +32,24 @@ getDetectorByID = function (id) {
             res.text().then(console.log);
     })
 
-}
+};
 deleteModelByID = function (id) {
     fetch(`/api/model?model_id=${id}`, optionDelete).then(r => {
-        console.log("deleted");
+        console.log('deleted');
     });
-}
+};
 getModels = function () {
     let models;
     fetch('/api/models').then((result) => {
         models = result.json();
         return models;
     }).then(printRes);
-}
+};
 printRes = function (result) {
     for (let i = 0; i < result.models.length; i++) {
         console.log(result.models[i]);
     }
-}
+};
 
 detect = function (id, data) {
 
@@ -66,4 +66,4 @@ detect = function (id, data) {
         } else
             res.text().then(console.log);
     })
-}
+};
