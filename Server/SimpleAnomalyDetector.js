@@ -19,6 +19,8 @@ class SimpleAnomalyDetector {
         for (const cf of this.correlations) {
             const feature1 = ts.getFeatureData(cf.feature1);
             const feature2 = ts.getFeatureData(cf.feature2);
+            if (!feature1 || !feature2)
+                continue;
             const len = Math.min(feature1.length, feature2.length);
 
             for (let i = 0; i < len; i++) {
@@ -35,8 +37,8 @@ class SimpleAnomalyDetector {
                 }
 
             }
-            return anomalyReport;
         }
+        return anomalyReport;
     }
 
     getDistance(cf, point) {
