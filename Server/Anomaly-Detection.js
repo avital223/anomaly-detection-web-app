@@ -86,3 +86,4 @@ exports.detect = async function (model_id, data, callback) {
 exports.getResult = function () {
     return result_;
 };
+

@@ -45,6 +45,7 @@ app.post('/api/anomaly', (req, res) => {
         if (model.status === 'pending') {
             res.redirect(302, `/api/model?model_id=${model_id}`);
             return;
+
         }
         Anomaly.detect(model_id, data, result => res.json(result));
     });
