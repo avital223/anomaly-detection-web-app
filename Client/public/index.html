@@ -12,19 +12,38 @@
         }
     </style>
 </head>
+<body>
+
+<style>
+    #div1 {
+        width: 350px;
+        height: 70px;
+        padding: 10px;
+        border: 1px solid #aaaaaa;
+    }
+</style>
+<script type="text/javascript" src="serverContact.js">
+    console.log(models);
+</script>
 <input type="text" id="ID">
 <select id="type">
     <option value="hybrid">hybrid</option>
     <option value="regression">regression</option>
 </select>
-
+<p id="demo"></p>
+<input type="file" id="fileInput"/>
+<div id="dropContainer" ondragenter="onDrag(event)" ondragover="onDrag(event)"
+     ondrop="onDrop(event, document.getElementById('fileInput'))" style="border:1px solid black;height:100px;">
+    Drop Here
+</div>
+Should update here:
 <input type="button" onclick="addNewModel(document.getElementById('type').value)" value="add">
-<input type="button" onclick="getDetectorByID(document.getElementById('ID').value)" value="get">
+<input type="button" onclick="setData(document.getElementById('fileInput'))" value="setData">
+<input type="button" onclick="getData()" value="getData">
+<input type="button" onclick="getModelById(document.getElementById('ID').value)" value="get">
 <input type="button" onclick="getModels()" value="models">
 <input type="button" onclick="detect(document.getElementById('ID').value)" value="detect">
 <input type="button" onclick="deleteModelByID(document.getElementById('ID').value)" value="delete">
-<script type="text/javascript" src="serverContact.js">
-</script>
 </body>
 
 </html>
