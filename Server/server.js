@@ -1,10 +1,11 @@
 const express = require('express');
-//Create new worker
 const Anomaly = require('./Anomaly-Detection');
 const queue = require('express-queue');
 // const data = require('../Client/public/helloworld.json');
 // const data = require('../helloworld.json');
 const app = express();
+
+
 app.use(express.json());
 
 app.get('/api/model', (req, res) => {
@@ -16,30 +17,39 @@ app.get('/api/models', (req, res) => {
     Anomaly.getModels().then(models => res.json({models: models}));
 });
 
-
-app.post('/api/model', queue({activeLimit: 10, queuedLimit: 10}), (req, res) => {
-    const type = req.query.model_type;
-    if (type !== 'hybrid' && type !== 'regression') {
-        res.status(400).send({error: 'only hybrid and regression supported'});
-        return;
-    }
-    const data = req.body;
-    Anomaly.insertAd(type).then((id) => {
-        Anomaly.train(data, id);
-        res.redirect(302, `/api/model?model_id=${id}`);
-    });
-});
-
-
-app.post('/api/anomaly', queue({activeLimit: 10, queuedLimit: 10}), (req, res) => {
-    const model_id = req.query.model_id;
-    const data = req.body;
-    Anomaly.getModel(model_id).then(async model => {
-        if (model.status === 'ready') {
-            Anomaly.detect(model_id, data, result => res.json(result));
+app.post(
+    '/api/model',
+    queue({activeLimit: 20, queuedLimit: -1}),
+    (req, res) => {
+        const type = req.query.model_type;
+        if (type !== 'hybrid' && type !== 'regression') {
+            res.status(400).send({error: 'only hybrid and regression supported'});
+            return;
         }
-    }).catch(resp => res.redirect(302, `/api/model?model_id=${model_id}`));
-});
+        const data = req.body;
+        Anomaly.insertAd(type).then((id) => {
+            Anomaly.train(id, data).then(() => console.log('finished train'));
+            res.redirect(302, `/api/model?model_id=${id}`);
+        }).catch(err => res.json({error: err}));
+    }
+);
+
+
+app.post(
+    '/api/anomaly',
+    queue({activeLimit: 20, queuedLimit: -1}),
+    (req, res) => {
+        const model_id = req.query.model_id;
+        const data = req.body;
+        Anomaly.getModel(model_id).then(model => {
+            if (model.status === 'ready') {
+                Anomaly.detect(model_id, data, result => res.json(result)).then(() => console.log('finished detect'));
+            } else {
+                res.redirect(302, `/api/model?model_id=${model_id}`);
+            }
+        }).catch(err => res.json({error: err}));
+    }
+);
 
 
 app.delete('/api/model', (req, res) => {
@@ -48,7 +58,10 @@ app.delete('/api/model', (req, res) => {
 });
 
 app.use('/', express.static(`Client/public`));
-app.listen(8080, () => Anomaly.loadDB());
+const server = app.listen(9876, () => {
+    Anomaly.init();
+    server.on('close', () => Anomaly.close());
+});
 
 
 // let data = '{\n';
