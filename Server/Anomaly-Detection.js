@@ -1,13 +1,8 @@
 const db = require('./database');
 
-const {Worker} = require('worker_threads');
+const workerPool = require('workerpool');
+let pool;
 
-let result_;
-
-anomaly = {
-    speed: [1, 2, 5, 1.4],
-    deg: [10000, 10000, 10000, 10000.541]
-};
 
 unifyReport = function (anomalies_full, names) {
     const reports = [];
@@ -25,7 +20,7 @@ unifyReport = function (anomalies_full, names) {
             }
             if (i === anomalies.length - 1 || (anomaly.feature1 !== nextAnomaly.feature1 || anomaly.feature2 !== nextAnomaly.feature2) || ts !== nextAnomaly.timeSteps - 1) {
                 p.end = ts + 1;
-                unified.push(p);
+                unified.push({start: p.start, end: p.end});
             }
         }
         reports.push({[name]: unified, reason: ''});
@@ -36,12 +31,19 @@ exports.removeModel = function (model_id) {
     db.delete(model_id);
 };
 
-exports.loadDB = function () {
+exports.init = function () {
     db.loadDatabase();
+    pool = workerPool.pool('./Server/worker.js', {
+        maxQueueSize: 20
+    });
 };
 
 exports.insertAd = async function (type) {
-    return db.insertModel({detectorType: type}).then(result => result);
+    return db.insertModel(type).then(result => result);
+};
+
+exports.close = async function (type) {
+    pool.terminate();
 };
 
 
@@ -49,17 +51,12 @@ exports.getModels = function () {
     return db.getModels().then(models => models);
 };
 
-exports.train = async function (data, model_id) {
-    const worker = new Worker('./Server/worker.js');
-    //Listen for a message from worker
-    worker.on('message', result => {
-        db.updateDetector(model_id, result);
-    });
 
-    worker.on('error', error => {
-        console.log(error);
-    });
-    worker.postMessage({msg: 'train', data: {data, model_id}});
+exports.train = async function (model_id, data) {
+    const ad = await db.getDetector(model_id);
+    pool.proxy()
+        .then(worker => worker.train(data, ad))
+        .then(ad => db.updateDetector(model_id, ad));
 };
 
 exports.getModel = function (model_id) {
@@ -68,21 +65,14 @@ exports.getModel = function (model_id) {
 
 
 exports.detect = async function (model_id, data, callback) {
-    const worker = new Worker('./Server/worker.js');
-    //Listen for a message from worker
-    worker.on('message', result => {
-        if (result.ans.length)
-            callback(unifyReport(result.ans, result.names));
-    });
-
-    worker.on('error', error => {
-        console.log(error);
-    });
-    worker.postMessage({msg: 'detect', data: {data, model_id}});
-};
-
-
-exports.getResult = function () {
-    return result_;
+    const ad = await db.getDetector(model_id);
+    pool.proxy()
+        .then(worker => worker.detect(data, ad))
+        .then(result => {
+            if (result.ans.length) {
+                //console.log(result);
+                callback(unifyReport(result.ans, result.names));
+            }
+        });
 };
 
