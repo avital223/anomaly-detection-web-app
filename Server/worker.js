@@ -1,24 +1,8 @@
+const workerPool = require('workerpool');
+
 const TimeSeries = require('./TimeSeries');
-const db = require('./database');
 const HybridAnomalyDetector = require('./HybridAnomalyDetector');
 const SimpleAnomalyDetector = require('./SimpleAnomalyDetector');
-const {isMainThread, parentPort} = require('worker_threads');
-
-if (!isMainThread) {
-    db.loadDatabase();
-}
-
-
-parentPort.on('message', message => {
-    const msg = message.msg;
-    const data = message.data;
-    if (msg === 'train') {
-        train(data.data, data.model_id).then(ad => parentPort.postMessage(ad));
-    }
-    if (msg === 'detect') {
-        detect(data.data, data.model_id).then(ans => parentPort.postMessage(ans));
-    }
-});
 
 createAd = function (type, detector) {
     switch (type) {
@@ -31,22 +15,22 @@ createAd = function (type, detector) {
     }
 };
 
-async function train(data, model_id) {
-    if (!isMainThread) {
-        const ts = new TimeSeries(data);
-        let ad = await db.getDetector(model_id);
-        ad = createAd(ad.type.detectorType);
-        await ad.learnNormal(ts);
-        return ad;
-    }
+async function train(data, ad) {
+    const ts = new TimeSeries(data);
+    ad = createAd(ad.type);
+    await ad.learnNormal(ts);
+    return ad;
 }
 
-async function detect(data, model_id) {
-    let ad = await db.getDetector(model_id);
-    ad = createAd(ad.type.detectorType, ad.detector);
+async function detect(data, ad) {
     const ts = new TimeSeries(data);
-    const ans = ad.detect(ts);
-    // console.log(ans);
+    ad = createAd(ad.type, ad.detector);
+    const ans = await ad.detect(ts);
     const names = ts.getFeatureNames();
     return {ans, names};
 }
+
+workerPool.worker({
+    train: train,
+    detect: detect
+});

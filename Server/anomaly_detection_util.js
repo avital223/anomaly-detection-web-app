@@ -34,17 +34,15 @@ exports.linear_reg = function (points) {
         x.push(p.x);
         y.push(p.y);
     }
-    let a = cov(x, y);
-    a = a / (variance(x));
+    const a = cov(x, y) / (variance(x));
     const b = avg(y) - a * avg(x);
     return {a: a, b: b};
 };
 
+const applyF = (l, x) => l.a * x + l.b;
+
 // returns the deviation between point p and the line
-exports.dev = (p, l) => {
-    const f = l.a * p.x + l.b;
-    return Math.abs(f - p.y);
-};
+exports.dev = (p, l) => Math.abs(applyF(l, p.x) - p.y);
 
 
 

@@ -14,7 +14,7 @@ class SimpleAnomalyDetector {
     }
 
     // virtual vector<AnomalyReport>
-    detect(ts) {
+    async detect(ts) {
         const anomalyReport = [];
         for (const cf of this.correlations) {
             const feature1 = ts.getFeatureData(cf.feature1);
@@ -22,21 +22,19 @@ class SimpleAnomalyDetector {
             if (!feature1 || !feature2)
                 continue;
             const len = Math.min(feature1.length, feature2.length);
-
-            for (let i = 0; i < len; i++) {
-                const p = {
+            Array.from(Array(len)
+                .keys())
+                .map(i => ({
                     x: feature1[i],
-                    y: feature2[i]
-                };
-                if (this.getDistance(cf, p) > cf.threshold) {
-                    anomalyReport.push({
-                        feature1: cf.feature1,
-                        feature2: cf.feature2,
-                        timeSteps: i
-                    });
-                }
-
-            }
+                    y: feature2[i],
+                    i: i
+                }))
+                .filter(p => this.getDistance(cf, p) > cf.threshold)
+                .forEach(p => anomalyReport.push({
+                    feature1: cf.feature1,
+                    feature2: cf.feature2,
+                    timeSteps: p.i
+                }));
         }
         return anomalyReport;
     }
@@ -78,14 +76,15 @@ class SimpleAnomalyDetector {
         // creating the data points
         const feature1 = ts.getFeatureData(cf.feature1);
         const feature2 = ts.getFeatureData(cf.feature2);
-        const points = [];
         const len = Math.min(feature1.length, feature2.length);
-        for (let i = 0; i < len; i++) {
-            points.push({
+
+        const points = Array.from(Array(len)
+            .keys())
+            .map(i => ({
                 x: feature1[i],
                 y: feature2[i]
-            });
-        }
+            }));
+
         this.fillCF(cf, points);
 
         this.correlations.push(cf);

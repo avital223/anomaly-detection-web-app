@@ -1,8 +1,5 @@
 
 let data;
-
-
-
 let id;
 let models;
 
@@ -12,7 +9,6 @@ addNewModel = function (type) {
         headers: {
             'Content-Type': 'application/json'
         },
-
         body: data
     };
     fetch(`/api/model?model_type=${type}`, optionPost).then(res => res.json()).then(model => id = model.model_id);
@@ -27,12 +23,12 @@ getModelById = function (id) {
         2500);
 };
 deleteModelByID = function (id) {
+
     const optionDelete = {
         method: 'DELETE'
     };
     fetch(`/api/model?model_id=${id}`, optionDelete).then(() => {
         console.log("deleted");
-
     });
 };
 getModels = function () {
