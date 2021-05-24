@@ -23,9 +23,7 @@ class HybridAnomalyDetector extends SimpleAnomalyDetector {
     fillCF(cf, points) {
         if (Math.abs(cf.correlation) > this.correlationThreshold) {
             super.fillCF(cf, points);
-            return;
-        }
-        if (Math.abs(cf.correlation) > 0.5) {
+        } else if (Math.abs(cf.correlation) > 0.5) {
             const cf1 = cf;
             cf1.min_circle = Circle.findMinCircle(points);
             cf1.threshold = cf1.min_circle.radius * 1.1;
