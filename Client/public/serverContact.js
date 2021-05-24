@@ -1,4 +1,8 @@
+
 let data;
+
+
+
 let id;
 let models;
 
@@ -8,6 +12,7 @@ addNewModel = function (type) {
         headers: {
             'Content-Type': 'application/json'
         },
+
         body: data
     };
     fetch(`/api/model?model_type=${type}`, optionPost).then(res => res.json()).then(model => id = model.model_id);
@@ -20,16 +25,16 @@ getModelById = function (id) {
                 res.text().then(console.log);
         }),
         2500);
-
-}
+};
 deleteModelByID = function (id) {
     const optionDelete = {
         method: 'DELETE'
     };
     fetch(`/api/model?model_id=${id}`, optionDelete).then(() => {
         console.log("deleted");
+
     });
-}
+};
 getModels = function () {
     fetch('/api/models').then((result) => {
         models = result.json();
@@ -104,6 +109,7 @@ detect = function (id) {
         headers: {
             'Content-Type': 'application/json'
         },
+
         body: data
     };
     setTimeout(() => fetch(`/api/anomaly?model_id=${id}`, optionPostDetect).then(res => {

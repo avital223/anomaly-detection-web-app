@@ -4,11 +4,21 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta charset="utf-8">
     <title>tests</title>
-    <script src="https://cdn.jsdelivr.net/npm/chart.js@3.2.1/dist/chart.min.js "></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.2.0/chart.min.js"></script>
+
 
     <style>
-        table, th, td {
+        table {
+            height: 50%;
+            width: 75%;
+        }
+
+        td {
             border: 1px solid black;
+        }
+
+        .Charts_td {
+            width: 75%;
         }
     </style>
 </head>
@@ -41,9 +51,136 @@ Should update here:
 <input type="button" onclick="setData(document.getElementById('fileInput'))" value="setData">
 <input type="button" onclick="getData()" value="getData">
 <input type="button" onclick="getModelById(document.getElementById('ID').value)" value="get">
-<input type="button" onclick="getModels()" value="models">
-<input type="button" onclick="detect(document.getElementById('ID').value)" value="detect">
+ <input type="button" onclick="getModels()" value="models">
+<input type="button" onclick="detect(document.getElementById('ID').value, data1)" value="detect">
 <input type="button" onclick="deleteModelByID(document.getElementById('ID').value)" value="delete">
+<table>
+    <tr>
+        <td id="charts" class="Charts_td">
+            <h1>LINE CHART</h1>
+            <canvas id="myChart" width="400" height="400"
+                    style="border: solid"></canvas>
+        </td>
+        <td>Savings</td>
+    </tr>
+    <tr>
+        <td>
+            <h5> Students Table</h5>
+            <table border="10" id="myTable" style="background: aquamarine ">
+                <!--The row number 0 -->
+                <tr>
+                    <th> First_Name</th>
+                    <th> Second_name</th>
+                    <th> Age</th>
+                </tr>
+                <!--End row number 0 -->
+                <tr>
+                    <td> Michelle</td>
+                    <td> Rabkin</td>
+                    <td> 24</td>
+                </tr>
+                <tr>
+                    <td> Avitusik</td>
+                    <td> Livshitz</td>
+                    <td> 22</td>
+                </tr>
+            </table>
+
+
+        </td>
+        <td>$100</td>
+    </tr>
+</table>
+<label for="ID"></label><input type="text" id="ID">
+<label for="type"></label><select id="type">
+    <option value="hybrid">hybrid</option>
+    <option value="regression">regression</option>
+</select>
+
 </body>
+
+
+
+<script>
+
+    const data = {
+        speed: [1, 2, 3, 4],
+        deg: [2, 4, 6, 8]
+    };
+
+    const data1 = {
+        speed: [1, 2, 3, 4],
+        deg: [10, 15, 31, 0]
+    };
+    const labels = Array.from(Array(data.speed.length).keys()).map(v => v + 1);
+    console.log(labels);
+
+    const ctx = document.getElementById('myChart').getContext('2d');
+    const myChart = new Chart(ctx, {
+        type: 'line',
+        title: {
+            text: 'Simple Line Chart'
+        },
+        data: {
+            labels: labels,
+            datasets: [
+                {
+                    data: data1.speed,
+                    label: 'speed',
+                    fill: false,
+                    pointBackgroundColor: 'red',
+                    pointBorderColor: 'red',
+                    pointHoverBorderColor: 'black',
+                    pointRadius: 10,
+                    pointHitRadius: 10,
+                    borderColor: [
+                        'rgba(255, 99, 132, 1)',
+                        'rgba(54, 162, 235, 1)',
+                        'rgba(255, 206, 86, 1)',
+                        'rgba(75, 192, 192, 1)',
+                        'rgba(153, 102, 255, 1)',
+                        'rgba(255, 159, 64, 1)'
+                    ],
+                    borderWidth: 1,
+                    backgroundColor: 'red',
+                }, {
+                    data: data1.deg,
+                    label: 'deg',
+                    fill: false,
+                    pointBackgroundColor: 'blue',
+                    pointBorderColor: 'blue',
+                    pointHoverBorderColor: 'black',
+                    pointRadius: 10,
+                    pointHitRadius: 10,
+                    borderColor: [
+                        'rgba(255, 99, 132, 1)',
+                        'rgba(54, 162, 235, 1)',
+                        'rgba(255, 206, 86, 1)',
+                        'rgba(75, 192, 192, 1)',
+                        'rgba(153, 102, 255, 1)',
+                        'rgba(255, 159, 64, 1)'
+                    ],
+                    borderWidth: 1,
+                    backgroundColor: 'blue',
+                },
+            ]
+        },
+
+        options:
+            {
+                scales: {
+                    x: {
+                        stacked: true,
+                        title: {
+                            color: 'red',
+                            text: 'TIME',
+                            display: true,
+                        },
+                    }
+                }
+            }
+    });
+</script>
+
 
 </html>
