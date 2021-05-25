@@ -35,7 +35,8 @@ class SimpleAnomalyDetector {
                         acc.push({
                             feature1: cf.feature1,
                             feature2: cf.feature2,
-                            timeSteps: p.i
+                            timeSteps: p.i,
+                            dev: this.getDistance(cf, p)
                         });
                         return acc;
                     }, []));
@@ -95,17 +96,14 @@ class SimpleAnomalyDetector {
     };
 
     fillCF(cf, points) {
-        const cf1 = cf;
-        cf1.line_reg = util.linear_reg(points);
-
+        const line_reg = util.linear_reg(points);
         // calculating the max deviation for all the points
-        const line_reg = cf1.line_reg;
+        cf.line_reg = line_reg;
         const max = points.reduce((acc, curr) => {
             const dev = util.dev(curr, line_reg);
             return acc <= dev ? dev : acc;
         }, util.dev(points[0], line_reg));
-        cf1.threshold = max * 1.5;
-        cf = cf1;
+        cf.threshold = max * 1.5;
     }
 
 

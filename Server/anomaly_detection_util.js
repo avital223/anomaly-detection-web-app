@@ -1,6 +1,14 @@
 // finds the average of a given array
 const avg = x => x.reduce((s, t, i) => s + ((t - s)) / (i + 1));
 
+exports.stats = arr => arr.reduce((acc, val, i) => {
+    acc.max = Math.max(acc.max, val);
+    acc.min = Math.min(acc.min, val);
+    acc.avg = acc.avg + ((val - acc.avg) / (i + 1));
+    return acc;
+}, {max: arr[0], min: arr[0], avg: arr[0]});
+
+
 // finds the average of the squares of the array
 const squaresAvg = x => avg(x.map(v => v * v));
 
