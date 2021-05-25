@@ -26,14 +26,15 @@ const cov = (x, y) => {
 // returns the Pearson correlation coefficient of X and Y
 exports.pearson = (x, y) => cov(x, y) / (Math.sqrt(variance(x) * variance(y)));
 
+
 // performs a linear regression and returns the line equation
 exports.linear_reg = function (points) {
-    const x = [];
-    const y = [];
-    for (const p of points) {
-        x.push(p.x);
-        y.push(p.y);
-    }
+    const {x, y} = points.reduce((acc, p) => {
+        acc.x.push(p.x);
+        acc.y.push(p.y);
+        return acc;
+    }, {x: [], y: []});
+
     const a = cov(x, y) / (variance(x));
     const b = avg(y) - a * avg(x);
     return {a: a, b: b};

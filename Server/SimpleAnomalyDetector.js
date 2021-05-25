@@ -22,21 +22,25 @@ class SimpleAnomalyDetector {
             if (!feature1 || !feature2)
                 continue;
             const len = Math.min(feature1.length, feature2.length);
-            Array.from(Array(len)
-                .keys())
-                .map(i => ({
-                    x: feature1[i],
-                    y: feature2[i],
-                    i: i
-                }))
-                .filter(p => this.getDistance(cf, p) > cf.threshold)
-                .forEach(p => anomalyReport.push({
-                    feature1: cf.feature1,
-                    feature2: cf.feature2,
-                    timeSteps: p.i
-                }));
+            anomalyReport.push(
+                Array.from(
+                    Array(len).keys())
+                    .map((val, i) => ({
+                        x: feature1[i],
+                        y: feature2[i],
+                        i: i
+                    }))
+                    .filter(p => this.getDistance(cf, p) > cf.threshold)
+                    .reduce((acc, p) => {
+                        acc.push({
+                            feature1: cf.feature1,
+                            feature2: cf.feature2,
+                            timeSteps: p.i
+                        });
+                        return acc;
+                    }, []));
         }
-        return anomalyReport;
+        return anomalyReport.flat(1);
     }
 
     getDistance(cf, point) {

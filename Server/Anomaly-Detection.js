@@ -8,8 +8,10 @@ unifyReport = function (anomalies_full, names) {
     const reports = [];
     for (const name of names) {
         const unified = [];
+        const reasons = [];
         const p = {start: 0, end: 0};
         const anomalies = anomalies_full.filter((a) => a.feature1 === name || a.feature2 === name);
+        let reason = '';
         for (let i = 0; i < anomalies.length; i++) {
             const anomaly = anomalies[i];
             const prevAnomaly = anomalies[i - 1];
@@ -17,13 +19,15 @@ unifyReport = function (anomalies_full, names) {
             const ts = anomaly.timeSteps;
             if (i === 0 || (anomaly.feature1 !== prevAnomaly.feature1 || anomaly.feature2 !== prevAnomaly.feature2) || ts !== prevAnomaly.timeSteps + 1) {
                 p.start = ts;
+                reason = anomaly.feature1 === name ? anomaly.feature2 : anomaly.feature1;
             }
             if (i === anomalies.length - 1 || (anomaly.feature1 !== nextAnomaly.feature1 || anomaly.feature2 !== nextAnomaly.feature2) || ts !== nextAnomaly.timeSteps - 1) {
                 p.end = ts + 1;
                 unified.push({start: p.start, end: p.end});
+                reasons.push(reason);
             }
         }
-        reports.push({[name]: unified, reason: ''});
+        reports.push({[name]: unified, reason: reasons});
     }
     return reports;
 };
