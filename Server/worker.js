@@ -25,9 +25,9 @@ async function train(data, ad) {
 async function detect(data, ad) {
     const ts = new TimeSeries(data);
     ad = createAd(ad.type, ad.detector);
-    const ans = await ad.detect(ts);
+    const anomalies = await ad.detect(ts);
     const names = ts.getFeatureNames();
-    return {ans, names};
+    return {anomalies, names};
 }
 
 workerPool.worker({
