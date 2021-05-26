@@ -5,18 +5,22 @@
     <meta charset="utf-8">
     <title>tests</title>
     <script src="https://cdn.jsdelivr.net/npm/chart.js@3.2.1/dist/chart.min.js "></script>
+    <script src="serverContact.js"></script>
+    <script src="ViewsJS/modelsLists.js"></script>
     <style>
         table, th, td {
             border: 1px solid black;
         }
 
-        .red {
+        .ready {
+            color: green;
+        }
+
+        .pending {
             color: red;
         }
     </style>
 </head>
-
-<body>
 
 <style>
     #div1 {
@@ -26,46 +30,29 @@
         border: 1px solid #aaaaaa;
     }
 </style>
-<script type="text/javascript" src="serverContact.js">
-</script>
 
-<input type="text" id="ID">
+<body>
+<label for="ID"></label><input type="text" id="ID">
 <label for="type"></label><select id="type">
     <option value="hybrid">hybrid</option>
     <option value="regression">regression</option>
 </select>
 
-
-<script type="text/javascript" src="serverContact.js">
-</script>
 <label for="modelsList">Choose your model from the list:</label>
-<select id="modelsList">
-</select>
-<script>
-    getModels().then((models) => {
-        let modelsArray = models.models;
-        for (let i = 0; i < modelsArray.length; i++) {
-            if (modelsArray[i].status != 'ready') {
-                document.getElementById('modelsList').innerHTML +=
-                    '<option value="' + 1 + '">"' + modelsArray[i].model_id + '"></option>';
-            } else {
-                document.getElementById('modelsList').innerHTML +=
-                    '<option class="red" value="' + 1 + '">"' + modelsArray[i].model_id + '"></option>';
-            }
-        }
-    });
-</script>
-=======
+
+
 <p id="demo"></p>
 
 Should update here:
-<input type="button" onclick="addNewModel(document.getElementById('type').value)" value="add">
-<input type="button" onclick="setData(document.getElementById('fileInput'))" value="setData">
+<input type="button" onclick="setData(document.getElementById('fileInput'), document.getElementById('type').value)"
+       value="add">
 <input type="button" onclick="getData()" value="getData">
-<input type="button" onclick="getModelById(document.getElementById('ID').value)" value="get">
+<input type="button" onclick="getModelById(document.getElementById('modelsList').value)" value="get">
 <input type="button" onclick="getModels()" value="models">
-<input type="button" onclick="detect(document.getElementById('ID').value, data1)" value="detect">
-<input type="button" onclick="deleteModelByID(document.getElementById('ID').value)" value="delete">
+<input type="button"
+       onclick="setDataDetect(document.getElementById('modelsList').value,document.getElementById('fileInput'))"
+       value="detect">
+<input type="button" onclick="deleteModelByID(document.getElementById('modelsList').value)" value="delete">
 <table>
     <tr>
         <td id="charts" class="Charts_td">
@@ -73,7 +60,8 @@ Should update here:
             <canvas id="myChart" width="400" height="400"
                     style="border: solid"></canvas>
         </td>
-        <td>Savings</td>
+        <td>
+            <select id="modelsList" size="30" class=""> </select></td>
     </tr>
     <tr>
         <td>
@@ -112,9 +100,6 @@ Should update here:
         </td>
     </tr>
 </table>
-
-</body>
-
 
 <script>
 
@@ -199,6 +184,7 @@ Should update here:
     // getModels().then(result => console.log(result));
 </script>
 <!--<p>Choose your model from the list:</p>-->
+<!--<script type="text/javascript" src="serverContact.js"></script>-->
 <!--<input type="search" list="modelsList"/>-->
 <!--<datalist id="modelsList">-->
 <!--</datalist>-->
@@ -209,8 +195,7 @@ Should update here:
 <!--        }-->
 <!--    });-->
 <!--</script>-->
-<!--<script type="text/javascript" src="serverContact.js">-->
-<!--</script>-->
+<!--<script src="ViewsJS/modelsLists.js"></script>>-->
 <!--<p><strong>Note:</strong> the models that are ready are colored in red </p>-->
 
 
@@ -230,11 +215,6 @@ Should update here:
 <!--        }-->
 <!--    </script>-->
 <!--</center>-->
-<input type="button" onclick="addNewModel(document.getElementById('type').value)" value="add">
-<input type="button" onclick="getDetectorByID(document.getElementById('ID').value)" value="get">
-<input type="button" onclick="getModels()" value="models">
-<input type="button" onclick="detect(document.getElementById('ID').value)" value="detect">
-<input type="button" onclick="deleteModelByID(document.getElementById('ID').value)" value="delete">
-</body>
 
+</body>
 </html>
