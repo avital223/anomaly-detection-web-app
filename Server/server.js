@@ -6,7 +6,7 @@ const queue = require('express-queue');
 const app = express();
 
 
-app.use(express.json());
+app.use(express.json({limit:'2MB'}));
 
 app.get('/api/model', (req, res) => {
     const model_id = req.query.model_id;
