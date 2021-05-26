@@ -4,20 +4,20 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta charset="utf-8">
     <title>tests</title>
-    <label for="myChart"></label>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.2.0/chart.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@3.2.1/dist/chart.min.js "></script>
+    <script src="serverContact.js"></script>
+    <script src="ViewsJS/modelsLists.js"></script>
     <style>
-        table {
-            height: 50%;
-            width: 75%;
-        }
-
-        td {
+        table, th, td {
             border: 1px solid black;
         }
 
-        .Charts_td {
-            width: 75%;
+        .ready {
+            color: green;
+        }
+
+        .pending {
+            color: red;
         }
     </style>
 </head>
@@ -32,29 +32,38 @@
     }
 </style>
 
-
-<input type="text" id="ID">
+<body>
+<label for="ID"></label><input type="text" id="ID">
 <label for="type"></label><select id="type">
     <option value="hybrid">hybrid</option>
     <option value="regression">regression</option>
 </select>
+
+<label for="modelsList">Choose your model from the list:</label>
+
+
 <p id="demo"></p>
+
 Should update here:
-<input type="button" onclick="addNewModel(document.getElementById('type').value)" value="add">
-<input type="button" onclick="setData(document.getElementById('fileInput'))" value="setData">
+<input type="button" onclick="setData(document.getElementById('fileInput'), document.getElementById('type').value)"
+       value="add">
 <input type="button" onclick="getData()" value="getData">
-<input type="button" onclick="getModelById(document.getElementById('ID').value)" value="get">
+<input type="button" onclick="getModelById(document.getElementById('modelsList').value)" value="get">
 <input type="button" onclick="getModels()" value="models">
-<input type="button" onclick="detect(document.getElementById('ID').value, data1)" value="detect">
-<input type="button" onclick="deleteModelByID(document.getElementById('ID').value)" value="delete">
+<input type="button"
+       onclick="setDataDetect(document.getElementById('modelsList').value,document.getElementById('fileInput'))"
+       value="detect">
+<input type="button" onclick="deleteModelByID(document.getElementById('modelsList').value)" value="delete">
 <table>
     <tr>
         <td id="charts" class="Charts_td">
             <h1>LINE CHART</h1>
+            <label for="myChart"></label>
             <canvas id="myChart" width="400" height="400"
                     style="border: solid"></canvas>
         </td>
-        <td>Savings</td>
+        <td>
+            <select id="modelsList" size="30" class=""> </select></td>
     </tr>
     <tr>
         <td>
@@ -77,22 +86,13 @@ Should update here:
                     <td> Livshitz</td>
                     <td> 22</td>
                 </tr>
-                <tr>
-                    <td> Adam</td>
-                    <td> Shapira</td>
-                    <td> 25</td>
-                </tr>
-                <tr>
-                    <td> Oz</td>
-                    <td> Rigler</td>
-                    <td> 25</td>
-                </tr>
             </table>
 
 
         </td>
         <td>
-
+            <script type="text/javascript" src="ViewsJS/FileHandler.js">
+            </script>
             <input type="file" id="fileInput"/>
             <div id="dropContainer" ondragenter="onDrag(event)" ondragover="onDrag(event)"
                  ondrop="onDrop(event, document.getElementById('fileInput'))"
@@ -109,5 +109,5 @@ Should update here:
 
 
 
-
+</body>
 </html>

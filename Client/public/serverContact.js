@@ -1,48 +1,13 @@
-let data;
-let id;
-
 addNewModel = function (type, data) {
     const optionPost = {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json'
         },
-        body: data
+        body: JSON.stringify({train_data: data})
     };
-    fetch(`/api/model?model_type=${type}`, optionPost).then(res => res.json()).then(model => id = model.model_id);
-}
-getModelById = function (id) {
-    setTimeout(() => fetch(`/api/model?model_id=${id}`).then(res => {
-            if (res.ok) {
-                res.json().then(console.log);
-            } else
-                res.text().then(console.log);
-        }),
-        2500);
+    fetch(`/api/model?model_type=${type}`, optionPost).then(res => res.json()).then(addModelToList);
 };
-deleteModelByID = function (id) {
-
-    const optionDelete = {
-        method: 'DELETE'
-    };
-    fetch(`/api/model?model_id=${id}`, optionDelete).then(() => {
-        console.log("deleted");
-    });
-};
-getModels = function () {
-    return fetch('/api/models').then((result) => {
-        return result.json();
-    });
-};
-
-setData = function (fileInput) {
-    CSV_reader(fileInput).then(notifyDataSet);
-}
-
-notifyDataSet = function (data) {
-    drawCharts(data);
-    //addNewModel(document.getElementById('type').value, data);
-}
 
 detect = function (id, data) {
     const optionPostDetect = {
@@ -50,13 +15,45 @@ detect = function (id, data) {
         headers: {
             'Content-Type': 'application/json'
         },
-
-        body: data
+        body: JSON.stringify({predict_data: data})
     };
-    return fetch(`/api/anomaly?model_id=${id}`, optionPostDetect).then(res => {
-        if (res.ok) {
-            res.json().then(console.log);
-        } else
-            res.text().then(console.log);
-    });
+    return fetch(`/api/anomaly?model_id=${id}`, optionPostDetect).then(res => res.json());
+};
+
+getModelById = function (id) {
+    return fetch(`/api/model?model_id=${id}`).then(res => res.json());
+};
+deleteModelByID = function (id) {
+
+    const optionDelete = {
+        method: 'DELETE'
+    };
+    fetch(`/api/model?model_id=${id}`, optionDelete).then(() => removeModelFromList(id));
+};
+getModels = function () {
+    return fetch('/api/models').then(result => result.json()).then(models => models.models);
+};
+
+setData = function (fileInput, type) {
+    CSV_reader(fileInput).then(data => notifyDataSet(data, type));
+};
+
+
+function setDataDetect(id, fileInput) {
+    CSV_reader(fileInput).then(data => notifyDetect(id, data));
 }
+
+function notifyFinishDetect(anomalies) {
+    console.log('hi')
+    console.log(anomalies);
+}
+
+function notifyDetect(id, data) {
+    detect(id, data).then(a => notifyFinishDetect(a));
+}
+
+notifyDataSet = function (data, type) {
+    addNewModel(type, data);
+};
+
+

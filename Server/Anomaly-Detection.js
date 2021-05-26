@@ -67,6 +67,7 @@ exports.getModels = function () {
 
 exports.train = async function (model_id, data) {
     const ad = await db.getDetector(model_id);
+    console.log(ad);
     pool.proxy()
         .then(worker => worker.train(data, ad))
         .then(ad => db.updateDetector(model_id, ad))
@@ -83,6 +84,6 @@ exports.detect = async function (model_id, data, callback) {
     pool.proxy()
         .then(worker => worker.detect(data, ad))
         .then(result => callback(unifyReport(result.anomalies, result.names)))
-        .catch(err => new Error(err));
+        .catch(console.log);
 };
 
