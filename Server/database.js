@@ -32,7 +32,7 @@ exports.insertModel = function (type) {
     });
 };
 
-exports.delete = function (id) {
+exports.delete = async function (id) {
     dataBase.remove({_id: id});
 };
 exports.updateDetector = (id, detector) => {
