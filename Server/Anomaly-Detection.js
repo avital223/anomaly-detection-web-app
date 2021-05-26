@@ -41,7 +41,7 @@ unifyReport = function (anomalies_full, names) {
     return reports;
 };
 exports.removeModel = function (model_id) {
-    db.delete(model_id);
+    return db.delete(model_id)
 };
 
 exports.init = function () {

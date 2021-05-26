@@ -16,12 +16,12 @@ app.get('/api/model', (req, res) => {
     const model_id = req.query.model_id;
     Anomaly.getModel(model_id)
         .then(model => res.json(model))
-        .catch(reason => res.status(400).send({error: reason}));
+        .catch(reason => res.status(400).json({error: reason}));
 });
 
 // a GET Request that returns all the models on the server
 app.get('/api/models', (req, res) => {
-    Anomaly.getModels().then(models => res.json({models: models}));
+    Anomaly.getModels().then(models => res.status(200).json({models: models}));
 });
 
 // a POST request that receives a
@@ -38,7 +38,7 @@ app.post(
         Anomaly.insertAd(type).then((id) => {
             Anomaly.train(id, data).then(() => console.log('finished train'));
             res.redirect(302, `/api/model?model_id=${id}`);
-        }).catch(err => res.json({error: err}));
+        }).catch(err => res.status(400).json({error: err}));
     }
 );
 
@@ -55,14 +55,14 @@ app.post(
             } else {
                 res.redirect(302, `/api/model?model_id=${model_id}`);
             }
-        }).catch(err => res.json({error: err}));
+        }).catch(err => res.status(400).json({error: err}));
     }
 );
 
 
 app.delete('/api/model', (req, res) => {
     const model_id = req.query.model_id;
-    Anomaly.removeModel(model_id);
+    Anomaly.removeModel(model_id).then(() => res.sendStatus(200));
 });
 
 
