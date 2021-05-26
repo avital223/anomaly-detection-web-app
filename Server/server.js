@@ -48,7 +48,7 @@ app.post(
     requestsQueue,
     (req, res) => {
         const model_id = req.query.model_id;
-        const data = req.body;
+        const data = req.body.predict_data;
         Anomaly.getModel(model_id).then(model => {
             if (model.status === 'ready') {
                 Anomaly.detect(model_id, data, result => res.json(result)).then(() => console.log('finished detect'));
