@@ -4,24 +4,17 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta charset="utf-8">
     <title>tests</title>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.2.0/chart.min.js"></script>
-
-
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@3.2.1/dist/chart.min.js "></script>
     <style>
-        table {
-            height: 50%;
-            width: 75%;
-        }
-
-        td {
+        table, th, td {
             border: 1px solid black;
         }
-
-        .Charts_td {
-            width: 75%;
+        .red{
+            color: red;
         }
     </style>
 </head>
+
 <body>
 
 <style>
@@ -40,6 +33,27 @@
     <option value="hybrid">hybrid</option>
     <option value="regression">regression</option>
 </select>
+
+
+<script type="text/javascript" src="serverContact.js">
+</script>
+<label for="modelsList">Choose your model from the list:</label>
+<select id="modelsList">
+</select>
+<script>
+    getModels().then((models) => {
+        let modelsArray = models.models;
+        for (let i = 0; i < modelsArray.length; i++) {
+            if(modelsArray[i].status != "ready") {
+                document.getElementById("modelsList").innerHTML +=
+                    '<option value="' + 1 + '">"' + modelsArray[i].model_id + '"></option>';
+            }else{
+                document.getElementById("modelsList").innerHTML +=
+                    '<option class="red" value="' + 1 + '">"' + modelsArray[i].model_id + '"></option>';            }
+        }
+    });
+  </script>
+=======
 <p id="demo"></p>
 
 Should update here:
@@ -177,9 +191,49 @@ Should update here:
                         },
                     }
                 }
-            }
-    });
-</script>
 
+            }
+        }
+    });
+    // getModels().then(result => console.log(result));
+</script>
+<!--<p>Choose your model from the list:</p>-->
+<!--<input type="search" list="modelsList"/>-->
+<!--<datalist id="modelsList">-->
+<!--</datalist>-->
+<!--<script type="javascript">-->
+<!--    getModels().then(response => response.json()).then((modelsArray) => {-->
+<!--        for (let i = 0; i < modelsArray.length; i++) {-->
+<!--            document.getElementById("modelsList").innerHTML += '<option value="' + modelsArray[i].model_id + '"></option>';-->
+<!--        }-->
+<!--    });-->
+<!--</script>-->
+<!--<script type="text/javascript" src="serverContact.js">-->
+<!--</script>-->
+<!--<p><strong>Note:</strong> the models that are ready are colored in red </p>-->
+
+
+<!--    <h1>How to bind</h1>-->
+<!--    <h2>javascript</h2>-->
+<!--    <hr/>-->
+<!--    <input type="search" list="dlsports"/>-->
+<!--    <datalist id="dlsports">-->
+<!--    </datalist>-->
+<!--    <script>-->
+<!--        var arrsports = new Array();-->
+<!--        arrsports[0]="cricket";-->
+<!--        arrsports[1]="football";-->
+<!--        arrsports[2]="soccer";-->
+<!--        for (var i=0;i<arrsports.length;i++){-->
+<!--            document.getElementById("dlsports").innerHTML+='<option value="'+arrsports[i]+'"></option>';-->
+<!--        }-->
+<!--    </script>-->
+<!--</center>-->
+<input type="button" onclick="addNewModel(document.getElementById('type').value)" value="add">
+<input type="button" onclick="getDetectorByID(document.getElementById('ID').value)" value="get">
+<input type="button" onclick="getModels()" value="models">
+<input type="button" onclick="detect(document.getElementById('ID').value)" value="detect">
+<input type="button" onclick="deleteModelByID(document.getElementById('ID').value)" value="delete">
+</body>
 
 </html>
