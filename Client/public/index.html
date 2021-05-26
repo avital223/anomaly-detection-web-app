@@ -28,16 +28,11 @@
 <label for="modelsList">Choose your model from the list:</label>
 <select id="modelsList">
 </select>
-<script>
-    getModels().then((models) => {
-        let modelsArray = models.models;
-        for (let i = 0; i < modelsArray.length; i++) {
-                document.getElementById("modelsList").innerHTML +=
-                    `<option class="${modelsArray[i].status}" value="1">"${modelsArray[i].model_id}"></option>`;
-            }
-    });
-</script>
+<script src="ViewsJS/modelsLists.js"></script>
+
+
 <!--<p>Choose your model from the list:</p>-->
+<!--<script type="text/javascript" src="serverContact.js"></script>-->
 <!--<input type="search" list="modelsList"/>-->
 <!--<datalist id="modelsList">-->
 <!--</datalist>-->
@@ -48,8 +43,7 @@
 <!--        }-->
 <!--    });-->
 <!--</script>-->
-<!--<script type="text/javascript" src="serverContact.js">-->
-<!--</script>-->
+<!--<script src="ViewsJS/modelsLists.js"></script>>-->
 <!--<p><strong>Note:</strong> the models that are ready are colored in red </p>-->
 
 
