@@ -5,6 +5,11 @@
     <meta charset="utf-8">
     <title>tests</title>
     <script src="https://cdn.jsdelivr.net/npm/chart.js@3.2.1/dist/chart.min.js "></script>
+    <script src="serverContact.js"></script>
+    <script src="ViewsJS/modelsLists.js"></script>
+    <script src="ViewsJS/dataTable.js"></script>
+    <script src="ViewsJS/FileHandler.js"></script>
+    <script src="ViewsJS/ChartsHandler.js"></script>
     <style>
         table, th, td {
             border: 1px solid black;
@@ -17,20 +22,22 @@
         .pending {
             color: red;
         }
+        .anomaly{
+            background-color: red;
+        }
     </style>
 </head>
 <body>
 
-<style>
-    #div1 {
-        width: 350px;
-        height: 70px;
-        padding: 10px;
-        border: 1px solid #aaaaaa;
-    }
-</style>
+<!--<style>-->
+<!--    #div1 {-->
+<!--        width: 350px;-->
+<!--        height: 70px;-->
+<!--        padding: 10px;-->
+<!--        border: 1px solid #aaaaaa;-->
+<!--    }-->
+<!--</style>-->
 
-<body>
 <label for="ID"></label><input type="text" id="ID">
 <label for="type"></label><select id="type">
     <option value="hybrid">hybrid</option>
@@ -66,27 +73,6 @@ Should update here:
     <tr>
         <td>
             <h5> Students Table</h5>
-            <table border="10" id="myTable" style="background: aquamarine ">
-                <!--The row number 0 -->
-                <tr>
-                    <th> First_Name</th>
-                    <th> Second_name</th>
-                    <th> Age</th>
-                </tr>
-                <!--End row number 0 -->
-                <tr>
-                    <td> Michelle</td>
-                    <td> Rabkin</td>
-                    <td> 24</td>
-                </tr>
-                <tr>
-                    <td> Avitusik</td>
-                    <td> Livshitz</td>
-                    <td> 22</td>
-                </tr>
-            </table>
-
-
         </td>
         <td>
             <input type="file" id="fileInput"/>
@@ -98,13 +84,6 @@ Should update here:
         </td>
     </tr>
 </table>
-<script type="text/javascript" src="serverContact.js"></script>
-<script type="text/javascript" src="ViewsJS/modelsLists.js"></script>
-<script type="text/javascript" src="ViewsJS/FileHandler.js"></script>
-<script type="text/javascript" src="ViewsJS/ChartsHandler.js"></script>
-</body>
-
-
-
+<table id="dataTable"></table>
 </body>
 </html>
