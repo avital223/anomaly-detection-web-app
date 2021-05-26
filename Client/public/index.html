@@ -5,8 +5,6 @@
     <meta charset="utf-8">
     <title>tests</title>
     <script src="https://cdn.jsdelivr.net/npm/chart.js@3.2.1/dist/chart.min.js "></script>
-    <script src="serverContact.js"></script>
-    <script src="ViewsJS/modelsLists.js"></script>
     <style>
         table, th, td {
             border: 1px solid black;
@@ -21,6 +19,7 @@
         }
     </style>
 </head>
+<body>
 
 <style>
     #div1 {
@@ -57,6 +56,7 @@ Should update here:
     <tr>
         <td id="charts" class="Charts_td">
             <h1>LINE CHART</h1>
+            <label for="myChart"></label>
             <canvas id="myChart" width="400" height="400"
                     style="border: solid"></canvas>
         </td>
@@ -89,8 +89,6 @@ Should update here:
 
         </td>
         <td>
-            <script type="text/javascript" src="ViewsJS/FileHandler.js">
-            </script>
             <input type="file" id="fileInput"/>
             <div id="dropContainer" ondragenter="onDrag(event)" ondragover="onDrag(event)"
                  ondrop="onDrop(event, document.getElementById('fileInput'))"
@@ -100,121 +98,13 @@ Should update here:
         </td>
     </tr>
 </table>
-
-<script>
-
-    const data2 = {
-        speed: [1, 2, 3, 4],
-        deg: [2, 4, 6, 8]
-    };
-
-    const data1 = {
-        speed: [1, 2, 3, 4],
-        deg: [10, 15, 31, 0]
-    };
-    const labels = Array.from(Array(data2.speed.length).keys()).map(v => v + 1);
-    console.log(labels);
-
-    const ctx = document.getElementById('myChart').getContext('2d');
-    const myChart = new Chart(ctx, {
-        type: 'line',
-        title: {
-            text: 'Simple Line Chart'
-        },
-        data: {
-            labels: labels,
-            datasets: [
-                {
-                    data: data1.speed,
-                    label: 'speed',
-                    fill: false,
-                    pointBackgroundColor: 'red',
-                    pointBorderColor: 'red',
-                    pointHoverBorderColor: 'black',
-                    pointRadius: 10,
-                    pointHitRadius: 10,
-                    borderColor: [
-                        'rgba(255, 99, 132, 1)',
-                        'rgba(54, 162, 235, 1)',
-                        'rgba(255, 206, 86, 1)',
-                        'rgba(75, 192, 192, 1)',
-                        'rgba(153, 102, 255, 1)',
-                        'rgba(255, 159, 64, 1)'
-                    ],
-                    borderWidth: 1,
-                    backgroundColor: 'red',
-                }, {
-                    data: data1.deg,
-                    label: 'deg',
-                    fill: false,
-                    pointBackgroundColor: 'blue',
-                    pointBorderColor: 'blue',
-                    pointHoverBorderColor: 'black',
-                    pointRadius: 10,
-                    pointHitRadius: 10,
-                    borderColor: [
-                        'rgba(255, 99, 132, 1)',
-                        'rgba(54, 162, 235, 1)',
-                        'rgba(255, 206, 86, 1)',
-                        'rgba(75, 192, 192, 1)',
-                        'rgba(153, 102, 255, 1)',
-                        'rgba(255, 159, 64, 1)'
-                    ],
-                    borderWidth: 1,
-                    backgroundColor: 'blue',
-                },
-            ]
-        },
-
-        options:
-            {
-                scales: {
-                    x: {
-                        stacked: true,
-                        title: {
-                            color: 'red',
-                            text: 'TIME',
-                            display: true,
-                        },
-                    }
-                }
-
-            }
-    });
-    // getModels().then(result => console.log(result));
-</script>
-<!--<p>Choose your model from the list:</p>-->
-<!--<script type="text/javascript" src="serverContact.js"></script>-->
-<!--<input type="search" list="modelsList"/>-->
-<!--<datalist id="modelsList">-->
-<!--</datalist>-->
-<!--<script type="javascript">-->
-<!--    getModels().then(response => response.json()).then((modelsArray) => {-->
-<!--        for (let i = 0; i < modelsArray.length; i++) {-->
-<!--            document.getElementById("modelsList").innerHTML += '<option value="' + modelsArray[i].model_id + '"></option>';-->
-<!--        }-->
-<!--    });-->
-<!--</script>-->
-<!--<script src="ViewsJS/modelsLists.js"></script>>-->
-<!--<p><strong>Note:</strong> the models that are ready are colored in red </p>-->
+<script type="text/javascript" src="serverContact.js"></script>
+<script type="text/javascript" src="ViewsJS/modelsLists.js"></script>
+<script type="text/javascript" src="ViewsJS/FileHandler.js"></script>
+<script type="text/javascript" src="ViewsJS/ChartsHandler.js"></script>
+</body>
 
 
-<!--    <h1>How to bind</h1>-->
-<!--    <h2>javascript</h2>-->
-<!--    <hr/>-->
-<!--    <input type="search" list="dlsports"/>-->
-<!--    <datalist id="dlsports">-->
-<!--    </datalist>-->
-<!--    <script>-->
-<!--        var arrsports = new Array();-->
-<!--        arrsports[0]="cricket";-->
-<!--        arrsports[1]="football";-->
-<!--        arrsports[2]="soccer";-->
-<!--        for (var i=0;i<arrsports.length;i++){-->
-<!--            document.getElementById("dlsports").innerHTML+='<option value="'+arrsports[i]+'"></option>';-->
-<!--        }-->
-<!--    </script>-->
-<!--</center>-->
 
 </body>
 </html>
