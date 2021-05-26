@@ -1,7 +1,5 @@
 const pendingList = [];
 
-getModels().then(models => models.forEach(addModelToList));
-
 function addModelToList(model) {
     const id = model.model_id;
     const status = model.status;
@@ -11,6 +9,8 @@ function addModelToList(model) {
         pendingList.push(model.model_id);
     }
 }
+
+getModels().then(models => models.forEach(addModelToList));
 
 function removeModelFromList(id) {
     const element = document.getElementById(id);
