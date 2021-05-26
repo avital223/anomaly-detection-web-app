@@ -4,9 +4,8 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta charset="utf-8">
     <title>tests</title>
+    <label for="myChart"></label>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.2.0/chart.min.js"></script>
-
-
     <style>
         table {
             height: 50%;
@@ -32,8 +31,7 @@
         border: 1px solid #aaaaaa;
     }
 </style>
-<script type="text/javascript" src="serverContact.js">
-</script>
+
 
 <input type="text" id="ID">
 <label for="type"></label><select id="type">
@@ -41,7 +39,6 @@
     <option value="regression">regression</option>
 </select>
 <p id="demo"></p>
-
 Should update here:
 <input type="button" onclick="addNewModel(document.getElementById('type').value)" value="add">
 <input type="button" onclick="setData(document.getElementById('fileInput'))" value="setData">
@@ -80,13 +77,22 @@ Should update here:
                     <td> Livshitz</td>
                     <td> 22</td>
                 </tr>
+                <tr>
+                    <td> Adam</td>
+                    <td> Shapira</td>
+                    <td> 25</td>
+                </tr>
+                <tr>
+                    <td> Oz</td>
+                    <td> Rigler</td>
+                    <td> 25</td>
+                </tr>
             </table>
 
 
         </td>
         <td>
-            <script type="text/javascript" src="ViewsJS/FileHandler.js">
-            </script>
+
             <input type="file" id="fileInput"/>
             <div id="dropContainer" ondragenter="onDrag(event)" ondragover="onDrag(event)"
                  ondrop="onDrop(event, document.getElementById('fileInput'))"
@@ -96,90 +102,12 @@ Should update here:
         </td>
     </tr>
 </table>
-
+<script type="text/javascript" src="serverContact.js"></script>
+<script type="text/javascript" src="ViewsJS/FileHandler.js"></script>
+<script type="text/javascript" src="ViewsJS/ChartsHandler.js"></script>
 </body>
 
 
-<script>
-
-    const data2 = {
-        speed: [1, 2, 3, 4],
-        deg: [2, 4, 6, 8]
-    };
-
-    const data1 = {
-        speed: [1, 2, 3, 4],
-        deg: [10, 15, 31, 0]
-    };
-    const labels = Array.from(Array(data2.speed.length).keys()).map(v => v + 1);
-    console.log(labels);
-
-    const ctx = document.getElementById('myChart').getContext('2d');
-    const myChart = new Chart(ctx, {
-        type: 'line',
-        title: {
-            text: 'Simple Line Chart'
-        },
-        data: {
-            labels: labels,
-            datasets: [
-                {
-                    data: data1.speed,
-                    label: 'speed',
-                    fill: false,
-                    pointBackgroundColor: 'red',
-                    pointBorderColor: 'red',
-                    pointHoverBorderColor: 'black',
-                    pointRadius: 10,
-                    pointHitRadius: 10,
-                    borderColor: [
-                        'rgba(255, 99, 132, 1)',
-                        'rgba(54, 162, 235, 1)',
-                        'rgba(255, 206, 86, 1)',
-                        'rgba(75, 192, 192, 1)',
-                        'rgba(153, 102, 255, 1)',
-                        'rgba(255, 159, 64, 1)'
-                    ],
-                    borderWidth: 1,
-                    backgroundColor: 'red',
-                }, {
-                    data: data1.deg,
-                    label: 'deg',
-                    fill: false,
-                    pointBackgroundColor: 'blue',
-                    pointBorderColor: 'blue',
-                    pointHoverBorderColor: 'black',
-                    pointRadius: 10,
-                    pointHitRadius: 10,
-                    borderColor: [
-                        'rgba(255, 99, 132, 1)',
-                        'rgba(54, 162, 235, 1)',
-                        'rgba(255, 206, 86, 1)',
-                        'rgba(75, 192, 192, 1)',
-                        'rgba(153, 102, 255, 1)',
-                        'rgba(255, 159, 64, 1)'
-                    ],
-                    borderWidth: 1,
-                    backgroundColor: 'blue',
-                },
-            ]
-        },
-
-        options:
-            {
-                scales: {
-                    x: {
-                        stacked: true,
-                        title: {
-                            color: 'red',
-                            text: 'TIME',
-                            display: true,
-                        },
-                    }
-                }
-            }
-    });
-</script>
 
 
 </html>

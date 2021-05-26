@@ -40,7 +40,8 @@ setData = function (fileInput) {
 }
 
 notifyDataSet = function (data) {
-    addNewModel(document.getElementById('type').value, data);
+    drawCharts(data);
+    //addNewModel(document.getElementById('type').value, data);
 }
 
 detect = function (id, data) {

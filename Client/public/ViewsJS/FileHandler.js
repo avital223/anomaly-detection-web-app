@@ -24,7 +24,7 @@ let parser = function (result) {
             } else obj[headers[j]].push(parseFloat(properties[j]));
         }
     }
-    return JSON.stringify(obj);
+    return obj;
 };
 
 
