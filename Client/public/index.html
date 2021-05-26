@@ -9,7 +9,8 @@
         table, th, td {
             border: 1px solid black;
         }
-        .red{
+
+        .red {
             color: red;
         }
     </style>
@@ -44,15 +45,16 @@
     getModels().then((models) => {
         let modelsArray = models.models;
         for (let i = 0; i < modelsArray.length; i++) {
-            if(modelsArray[i].status != "ready") {
-                document.getElementById("modelsList").innerHTML +=
+            if (modelsArray[i].status != 'ready') {
+                document.getElementById('modelsList').innerHTML +=
                     '<option value="' + 1 + '">"' + modelsArray[i].model_id + '"></option>';
-            }else{
-                document.getElementById("modelsList").innerHTML +=
-                    '<option class="red" value="' + 1 + '">"' + modelsArray[i].model_id + '"></option>';            }
+            } else {
+                document.getElementById('modelsList').innerHTML +=
+                    '<option class="red" value="' + 1 + '">"' + modelsArray[i].model_id + '"></option>';
+            }
         }
     });
-  </script>
+</script>
 =======
 <p id="demo"></p>
 
@@ -193,7 +195,6 @@ Should update here:
                 }
 
             }
-        }
     });
     // getModels().then(result => console.log(result));
 </script>
