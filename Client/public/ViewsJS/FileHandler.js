@@ -38,10 +38,7 @@ onDrop = function (evt, fileInput) {
     }
 };
 
-CSV_reader = function (fileInput) {
-    if (fileInput.files.length === 0)
-        return;
-    if (fileInput.files[0].type !== 'application/vnd.ms-excel')
-        return;
+CSV_reader = async function (fileInput) {
+    if (!fileInput || fileInput.files.length === 0 || fileInput.files[0].type !== 'application/vnd.ms-excel') return;
     return fileInput.files[0].text().then(parser);
 };

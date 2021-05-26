@@ -37,10 +37,8 @@ app.get('/api/models', (req, res) => {
 app.post(
     '/api/model',
     requestsQueue,
-    oneOf([query('type')
-        .exists().withMessage('must send model type')
-        .isIn(['hybrid', 'regression']).withMessage('type can only be hybrid or regression'),
-        body('train_data', 'must send training data').exists().notEmpty()]),
+    query('model_type').exists().withMessage('must send model type').isIn(['hybrid', 'regression']).withMessage('type can only be hybrid or regression'),
+    body('train_data', 'must send training data').exists().notEmpty(),
     (req, res) => {
         const errors = validationResult(req);
         if (errors.isEmpty()) {
@@ -59,13 +57,14 @@ app.post(
 app.post(
     '/api/anomaly',
     requestsQueue,
-    oneOf([query('model_id', 'must send model id').exists().notEmpty(),
-        body('predict_data', 'must send predict data').exists().notEmpty()]),
+    query('model_id', 'must send model id').exists().notEmpty(),
+    body('predict_data', 'must send predict data').exists().notEmpty(),
     (req, res) => {
         const errors = validationResult(req);
         if (errors.isEmpty()) {
             const model_id = req.query.model_id;
             const data = req.body.predict_data;
+            console.log(req.body);
             Anomaly.getModel(model_id).then(model => {
                 if (model.status === 'ready') {
                     Anomaly.detect(model_id, data, result => res.json(result)).then(() => console.log('finished detect'));

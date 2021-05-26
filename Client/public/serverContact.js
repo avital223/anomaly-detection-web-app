@@ -6,7 +6,12 @@ addNewModel = function (type, data) {
         },
         body: JSON.stringify({train_data: data})
     };
-    fetch(`/api/model?model_type=${type}`, optionPost).then(res => res.json()).then(addModelToList);
+    fetch(`/api/model?model_type=${type}`, optionPost).then(res => {
+        if (res.ok)
+            res.json().then(addModelToList);
+        else
+            res.json().then(console.error);
+    });
 };
 
 detect = function (id, data) {
@@ -17,7 +22,12 @@ detect = function (id, data) {
         },
         body: JSON.stringify({predict_data: data})
     };
-    return fetch(`/api/anomaly?model_id=${id}`, optionPostDetect).then(res => res.json());
+    return fetch(`/api/anomaly?model_id=${id}`, optionPostDetect).then(res => {
+        if (res.ok)
+            return res.json();
+        else
+            res.json().then(console.error);
+    });
 };
 
 getModelById = function (id) {
@@ -44,7 +54,6 @@ function setDataDetect(id, fileInput) {
 }
 
 function notifyFinishDetect(anomalies) {
-    console.log('hi')
     console.log(anomalies);
 }
 
