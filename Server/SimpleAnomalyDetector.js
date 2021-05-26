@@ -22,21 +22,26 @@ class SimpleAnomalyDetector {
             if (!feature1 || !feature2)
                 continue;
             const len = Math.min(feature1.length, feature2.length);
-            Array.from(Array(len)
-                .keys())
-                .map(i => ({
-                    x: feature1[i],
-                    y: feature2[i],
-                    i: i
-                }))
-                .filter(p => this.getDistance(cf, p) > cf.threshold)
-                .forEach(p => anomalyReport.push({
-                    feature1: cf.feature1,
-                    feature2: cf.feature2,
-                    timeSteps: p.i
-                }));
+            anomalyReport.push(
+                Array.from(
+                    Array(len).keys())
+                    .map((val, i) => ({
+                        x: feature1[i],
+                        y: feature2[i],
+                        i: i
+                    }))
+                    .filter(p => this.getDistance(cf, p) > cf.threshold)
+                    .reduce((acc, p) => {
+                        acc.push({
+                            feature1: cf.feature1,
+                            feature2: cf.feature2,
+                            timeSteps: p.i,
+                            dev: this.getDistance(cf, p)
+                        });
+                        return acc;
+                    }, []));
         }
-        return anomalyReport;
+        return anomalyReport.flat(1);
     }
 
     getDistance(cf, point) {
@@ -91,17 +96,14 @@ class SimpleAnomalyDetector {
     };
 
     fillCF(cf, points) {
-        const cf1 = cf;
-        cf1.line_reg = util.linear_reg(points);
-
+        const line_reg = util.linear_reg(points);
         // calculating the max deviation for all the points
-        const line_reg = cf1.line_reg;
+        cf.line_reg = line_reg;
         const max = points.reduce((acc, curr) => {
             const dev = util.dev(curr, line_reg);
             return acc <= dev ? dev : acc;
         }, util.dev(points[0], line_reg));
-        cf1.threshold = max * 1.5;
-        cf = cf1;
+        cf.threshold = max * 1.5;
     }
 
 
