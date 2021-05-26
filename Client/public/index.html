@@ -5,11 +5,13 @@
     <meta charset="utf-8">
     <title>tests</title>
     <script src="https://cdn.jsdelivr.net/npm/chart.js@3.2.1/dist/chart.min.js "></script>
+    <script src="serverContact.js"></sctipt>
     <style>
         table, th, td {
             border: 1px solid black;
         }
-        .ready{
+
+      .ready{
             color: green;
         }
         .pending{
@@ -28,8 +30,6 @@
         border: 1px solid #aaaaaa;
     }
 </style>
-<script type="text/javascript" src="serverContact.js">
-</script>
 
 <input type="text" id="ID">
 <label for="type"></label><select id="type">
@@ -37,10 +37,7 @@
     <option value="regression">regression</option>
 </select>
 
-
-<script type="text/javascript" src="serverContact.js">
-</script>
-<label for="modelsList">Choose your model from the list:</label>
+ <label for="modelsList">Choose your model from the list:</label>
 <select id="modelsList">
 </select>
 <script src="ViewsJS/modelsLists.js"></script>
@@ -184,7 +181,6 @@ Should update here:
                 }
 
             }
-        }
     });
     // getModels().then(result => console.log(result));
 </script>
