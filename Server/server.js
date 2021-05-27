@@ -93,4 +93,5 @@ app.delete('/api/model',
 const server = app.listen(port, () => {
     Anomaly.init();
     server.on('close', () => Anomaly.close());
+    console.log("listening on port",port);
 });

@@ -55,18 +55,18 @@ function setDataDetect(id, fileInput) {
 
 function notifyFinishDetect(anomalies) {
     markAnomalies(anomalies);
-    //drawAnomaly(anomalies);
+    drawAnomaly( { anomalies:{ air_speed: [[2,3], [1]] }, reason: 'shit' });
 }
 
 function notifyDetect(id, data) {
     addDataToTable(data);
     detect(id, data).then(a => notifyFinishDetect(a));
-    //drawCharts(data);
+    drawCharts(data);
 }
 
 notifyDataSet = function (data, type) {
     addNewModel(type, data);
-    //drawCharts(data);
+    drawCharts(data);
 };
 
 
