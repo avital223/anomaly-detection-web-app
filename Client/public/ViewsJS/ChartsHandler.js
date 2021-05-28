@@ -1,9 +1,11 @@
-let myChart = new Chart();
+let myChart;
+let maxValue = 0;
 
 function dataSet(data) {
-    let array = [];
-    for (let i in data) {
-        let obj = {
+    const array = [];
+
+    for (const i in data) {
+        const obj = {
             data: data[i],
             label: i,
             fill: false,
@@ -23,13 +25,19 @@ function dataSet(data) {
             borderWidth: 1,
             backgroundColor: '#' + Math.floor(Math.random() * 16777215).toString(16),
         }
+        const currentMax = Math.max(...data[i]);
+
+        if (maxValue < currentMax) {
+            maxValue = currentMax;
+        }
+
         array.push(obj);
     }
     return array;
 }
 
 function drawCharts(data) {
-    myChart.destroy();
+    myChart && myChart.destroy();
     let N;
     for (let i in data) {
         N = data[i].length;
@@ -39,18 +47,36 @@ function drawCharts(data) {
         Array.apply(null, {length: N}).map(Number.call, Number);
 
     const ctx = document.getElementById('myChart').getContext('2d');
+
     myChart = new Chart(ctx, {
+        responsive: true,
+        maintainAspectRatio: false,
         type: 'line',
         title: {
+            display: true,
             text: 'Simple Line Chart'
         },
         data: {
             labels: labels,
             datasets: dataSet(data)
         },
-
         options:
             {
+                tooltips: {
+                    enabled: false,
+                    callbacks: {
+                        label: function (tooltipItem, data) {
+                            console.log(data);
+                            let label = data.datasets[tooltipItem.datasetIndex].label || '';
+
+                            if (label) {
+                                label += ': ';
+                            }
+                            label += Math.round(tooltipItem.yLabel * 100) / 100;
+                            return label;
+                        }
+                    }
+                },
                 scales: {
                     x: {
                         stacked: true,
@@ -65,15 +91,46 @@ function drawCharts(data) {
     });
 };
 
-function drawAnomaly(anomalies){
-    myChart.datasets.push({data: [1,2,3,4,5,6,7],
-        label: "avi",
+function drawAnomaly({anomalies, reason}) {
+    const parsedData = []
+    const data = Object.values(anomalies)[0].map(item => {
+        const a = item.map(point => {
+            return {x: point, y: maxValue};
+        })
+
+        return a;
+    });
+
+    data.forEach(pointsArray => {
+        pointsArray.forEach(point => parsedData.push(point))
+    })
+
+    myChart.data.datasets.push({
+        label: "Anomalies",
+
+        // data: [{x: 1, y: maxValue, barThickness: 1}, {x: 2, y: maxValue, barThickness: 1}, {
+        //     x: 3,
+        //     y: maxValue,
+        //     barThickness: 1
+        // }, {
+        //     x: 0,
+        //     y: maxValue,
+        //     barThickness: 0.5
+        // }],
+
+        data: parsedData,
+        type: "bar",
         fill: false,
-        pointBackgroundColor: 'red',
-        pointBorderColor: 'blue',
-        pointHoverBorderColor: 'black',
-        pointRadius: 1,
-        pointHitRadius: 10,
+        options:
+            {
+                scales: {
+                    y: {
+                        beginAtZero: true,
+                    },
+
+
+                }
+            },
         borderColor: [
             'rgba(255, 99, 132, 1)',
             'rgba(54, 162, 235, 1)',
@@ -83,6 +140,7 @@ function drawAnomaly(anomalies){
             'rgba(255, 159, 64, 1)'
         ],
         borderWidth: 1,
-        backgroundColor: 'red',
-    })
+        backgroundColor: '#' + Math.floor(Math.random() * 16777215).toString(16),
+    });
+    myChart.update();
 }
