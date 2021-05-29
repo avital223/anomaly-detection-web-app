@@ -4,12 +4,11 @@
 
 The server is a Node.js server (ver. 14.16.1) implementing the REST API.
 
-#### how to run
+#### how to run:
 to run the server you need to use node.js 
 ```
 node Sever/Controller/server.js
 ```
-
 
 
 ### additional features
@@ -23,7 +22,7 @@ and more efficient.
 
 
 
-### Requests 
+### API 
 Type       | Endpoint      | query      | body         | Explanation
 ----       | --------      | :---:      | :---:        | --------------------
 **GET**    | _/api/model_  | model_id   | X            | send back a model with model_id
@@ -32,7 +31,7 @@ Type       | Endpoint      | query      | body         | Explanation
 **GET**    | _/api/models_ | X          | X            | send back all the models on the server as an array 
 **POST**   |_/api/anomaly_ | model_id   | predict_data | use the model with model_id to detect anomalies in predict_data 
 
-**external libraries:**
+### External Libraries:
 
 name              | version  | usage
  ----             | -------- | ---
@@ -46,7 +45,25 @@ workerpool        | _6.1.4_  | creating and handling workers
 
 ## Client Side
 
-**external libraries:**
+this is a Client to communicate with the server using the [API](#API)
+
+### how to use:
+the web page is divided into _num_ section:
+
+* **Buttons Row** - here there are 3 button -
+  * add - after the user upload a csv file 
+  * detect
+  * delete
+* **Chart Area** - the area in which the chart appear after data has been uploaded.
+* **Models list** - here all the models currently on the server appears in the format `model_id | upload date` 
+if the model is ready it will show in green and if it is pending it will show in red
+* **DropBox** - the users can drag over or use the button labeled `Choose File` to upload
+a csv file.
+  
+
+
+
+### External Libraries:
 
 name       | version
 ----       | --------
