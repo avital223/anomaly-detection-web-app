@@ -11,7 +11,7 @@ function getTime() {
     const now = new Date();
     const timezoneOffset = now.getTimezoneOffset();
     const offsetMs = timezoneOffset * 60 * 1000;
-    const timezoneoffsetstring = '+0' + timezoneOffset / -60 + '.00';
+    const timezoneoffsetstring = '+0' + timezoneOffset / -60 + ':00';
     return new Date(now.getTime() - offsetMs).toISOString().replace('Z', timezoneoffsetstring);
 }
 

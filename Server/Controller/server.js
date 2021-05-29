@@ -1,6 +1,6 @@
 // imports
 const express = require('express');
-const Anomaly = require('./Anomaly-Detection');
+const Anomaly = require('../Models/Anomaly-Detection');
 const queue = require('express-queue');
 const {body, query, validationResult} = require('express-validator');
 

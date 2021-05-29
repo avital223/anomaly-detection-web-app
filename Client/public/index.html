@@ -1,14 +1,15 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta content="IE=edge" http-equiv="X-UA-Compatible">
     <meta charset="utf-8">
     <title>tests</title>
-    <script src="https://cdn.jsdelivr.net/npm/chart.js@3.3.0/dist/chart.min.js "></script>
-    <script src="serverContact.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.3.0/chart.js"></script>
+    <script src="Controller/serverContact.js"></script>
+    <script src="Model/FileHandler.js"></script>
     <script src="ViewsJS/modelsLists.js"></script>
     <script src="ViewsJS/dataTable.js"></script>
-    <script src="ViewsJS/FileHandler.js"></script>
+    <script src="ViewsJS/DropBox.js"></script>
     <script src="ViewsJS/ChartsHandler.js"></script>
     <style>
         table, th, td {
@@ -31,38 +32,42 @@
 <body>
 
 
-<label for="ID"></label><input type="text" id="ID">
+<label for="ID"></label><input id="ID" type="text">
 <label for="type"></label><select id="type">
     <option value="hybrid">hybrid</option>
     <option value="regression">regression</option>
 </select>
 
 <label for="modelsList">Choose your model from the list:</label>
-<input type="button" onclick="setData(document.getElementById('fileInput'), document.getElementById('type').value)"
+<input onclick="setData(document.getElementById('fileInput'), document.getElementById('type').value)" type="button"
        value="add">
-<input type="button"
-       onclick="setDataDetect(document.getElementById('modelsList').value,document.getElementById('fileInput'))"
+<input onclick="setDataDetect(document.getElementById('modelsList').value,document.getElementById('fileInput'))"
+       type="button"
        value="detect">
-<input type="button" onclick="deleteModelByID(document.getElementById('modelsList').value)" value="delete">
+<input onclick="deleteModelByID(document.getElementById('modelsList').value)" type="button" value="delete">
 <table>
     <tr>
-        <td id="charts" class="Charts_td">
+        <td class="Charts_td" id="charts">
             <h1>LINE CHART</h1>
             <label for="myChart"></label>
-            <canvas id="myChart" width="400" height="400"
-                    style="border: solid"></canvas>
+            <canvas height="400" id="myChart" style="border: solid"
+                    width="400"></canvas>
         </td>
         <td>
-            <select id="modelsList" size="30" class=""> </select></td>
+            <select class="" id="modelsList" size="30"> </select></td>
     </tr>
     <tr>
         <td>
             <h5> Students Table</h5>
         </td>
         <td>
-            <input type="file" id="fileInput" onchange="updateDrop(event, this)"/>
+            <input id="fileInput" onchange="updateDrop(event, this)" type="file"/>
             <label for="dropContainer"></label>
-            <div id="dropContainer" ondragenter="onDrag(event)" ondragover="onDrag(event)"
+            <div id="dropContainer"
+                 ondragend="onDragEnd(event)"
+                 ondragenter="onDragEnter(event)"
+                 ondragleave="onDragEnd(event)"
+                 ondragover="onDrag(event)"
                  ondrop="onDrop(event, document.getElementById('fileInput'))"
                  style="border:1px solid black;height:100px;">
                 drop here!
