@@ -3,9 +3,10 @@ const util = require('./anomaly_detection_util');
 const workerPool = require('workerpool');
 let pool;
 
-
+// a function that gets a list of anomalies and a list of the features names and make a unified report
 unifyReport = function (anomalies_full, names) {
     const reports = [];
+    // making the report for all the data columns
     for (const name of names) {
         const unified = [];
         const reasons = [];
@@ -40,50 +41,57 @@ unifyReport = function (anomalies_full, names) {
     }
     return reports;
 };
+
+// removes a model with model_id from the database
 exports.removeModel = function (model_id) {
-    return db.delete(model_id)
+    return db.delete(model_id);
 };
 
+
+// initialize the Anomaly Detection unit
 exports.init = function () {
+    // loading the database
     db.loadDatabase();
+
+    // initialize a worker pool
     pool = workerPool.pool('./Server/worker.js', {
         maxQueueSize: 20
     });
 };
 
+// creating a new detector with a given type
 exports.insertAd = async function (type) {
-    return db.insertModel(type).then(result => result);
+    return db.insertModel(type);
 };
 
+// closing all the used data
 exports.close = async function () {
     pool.terminate();
 };
 
-
+// return all the model in the database
 exports.getModels = function () {
     return db.getModels().then(models => models);
 };
 
-
+// train the model with model id with the data given
 exports.train = async function (model_id, data) {
     const ad = await db.getDetector(model_id);
-    console.log(ad);
     pool.proxy()
         .then(worker => worker.train(data, ad))
-        .then(ad => db.updateDetector(model_id, ad))
-        .catch(err => new Error(err));
+        .then(ad => db.updateDetector(model_id, ad));
 };
 
+// return the model with model_id
 exports.getModel = function (model_id) {
-    return db.getModel(model_id).then(res => res);
+    return db.getModel(model_id);
 };
 
-
+// trying to detect anomalies in the data based on the already trained model with model_id and return the result through a callback
 exports.detect = async function (model_id, data, callback) {
     const ad = await db.getDetector(model_id);
     pool.proxy()
         .then(worker => worker.detect(data, ad))
-        .then(result => callback(unifyReport(result.anomalies, result.names)))
-        .catch(console.log);
+        .then(result => callback(unifyReport(result.anomalies, result.names)));
 };
 

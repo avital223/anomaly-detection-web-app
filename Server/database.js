@@ -33,7 +33,8 @@ exports.insertModel = function (type) {
 };
 
 exports.delete = async function (id) {
-    dataBase.remove({_id: id});
+    return exports.getModel(id)
+        .then(() => dataBase.remove({_id: id}));
 };
 exports.updateDetector = (id, detector) => {
     dataBase.update(
@@ -76,7 +77,6 @@ exports.getModel = function (id) {
     return new Promise(function (resolve, reject) {
         dataBase.findOne({_id: id}, function (err, model) {
             if (err) {
-                console.log('err');
                 reject(err);
                 return;
             }

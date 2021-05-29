@@ -6,20 +6,20 @@ function distanceSquare(p1, p2) {
 }
 
 /**
-* \param circle - the circle to check whether the point is in
-* \param point  - the point to check if it is in the circle
-* \return - if the point is inside the circle
+* @param circle - the circle to check whether the point is in
+* @param point  - the point to check if it is in the circle
+* @returns - if the point is inside the circle
 */
 function isIn(circle, point) {
     return distanceSquare(circle.center, point) <= circle.radius;
 }
 
 /**
-* \param boundary - an array of points on the circumference of the circle
-* \param size - the size of the array
-* \return the circle that made with this points on it's circumference
+* @param boundary an array of points on the circumference of the circle
+* @param size the size of the array
+* @returns the circle that made with this points on it's circumference
 *
-* \note - the function returns the circle with squared radius for time optimization
+* @description - the function returns the circle with squared radius for time optimization
 */
 function trivialCircle(boundary, size) {
     switch (size) {
@@ -60,18 +60,18 @@ function trivialCircle(boundary, size) {
 }
 
 /**
-* \brief - we decided to implement the welzl algorithm as it's shown in https://en.wikipedia.org/wiki/Smallest-circle_problem
-* \param points - the points to find the minimum circle that enclose them
-* \param pointsSize - the size of the points array
-* \param boundary - an array of points that located on the circumference of the min circle
-* \param boundarySize - the size of the boundary array
-* \return   the function returns the minimum enclosing array for the points given
+* @summary - we decided to implement the welzl algorithm as it's shown in https://en.wikipedia.org/wiki/Smallest-circle_problem
+* @param points - the points to find the minimum circle that enclose them
+* @param pointsSize - the size of the points array
+* @param boundary - an array of points that located on the circumference of the min circle
+* @param boundarySize - the size of the boundary array
+* @returns the function returns the minimum enclosing array for the points given
 *
-* \note for time optimization purposes the function returns the circle with it's array squared
+* @description for time optimization purposes the function returns the circle with it's array squared
 */
 function welzl(points, pointsSize, boundary, boundarySize) {
     // we implements the welzl algorithm
-    if (pointsSize == 0 || boundarySize == 3) {
+    if (pointsSize === 0 || boundarySize === 3) {
         return trivialCircle(boundary, boundarySize);
     }
     const p = points[pointsSize - 1];
@@ -85,9 +85,8 @@ function welzl(points, pointsSize, boundary, boundarySize) {
 
 /**
 *
-* \param points - the points to find the minimum circle enclosing them
-* \param size - the size of the array
-* \return the minimum circle enclosing all the points
+* @param points - the points to find the minimum circle enclosing them
+* @returns the minimum circle enclosing all the points
 */
 exports.findMinCircle = function (points) {
     const p = { x: 0, y: 0 };
