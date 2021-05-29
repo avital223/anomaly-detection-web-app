@@ -1,22 +1,22 @@
 function addDataToTable(data) {
-    const table = document.getElementById("dataTable");
-    const th = document.getElementById("thead");
+    const table = document.getElementById('dataTable');
+    const th = document.getElementById('thead');
     if (th !== null) {
         th.parentElement.removeChild(th);
     }
     let thead = table.createTHead();
-    thead.id = "thead"
+    thead.id = 'thead';
     for (const key in data) {
         let row = thead.insertRow();
         row.id = key;
-        let th = document.createElement("th");
+        let th = document.createElement('th');
         th.innerText = key;
         row.appendChild(th);
         data[key].forEach(d => {
-            const td = document.createElement("td");
+            const td = document.createElement('td');
             td.innerText = d;
             row.appendChild(td);
-        })
+        });
     }
 }
 
@@ -28,7 +28,7 @@ function markAnomalies(anomalies) {
             for (const specificAnomaly in anomaliesArray) {
                 const anomalyRow = document.getElementById(key);
                 for (let i = anomaliesArray[specificAnomaly].start + 1; i <= anomaliesArray[specificAnomaly].end; i++) {
-                    anomalyRow.cells.item(i).className = "anomaly";
+                    anomalyRow.cells.item(i).className = 'anomaly';
                 }
             }
         }
@@ -36,21 +36,21 @@ function markAnomalies(anomalies) {
 }
 
 function printTableAnomalies(anomalies) {
-    const table = document.getElementById("anomalies");
-    const th = document.getElementById("theadAn");
+    const table = document.getElementById('anomalies');
+    const th = document.getElementById('theadAn');
     if (th !== null) {
         th.parentElement.removeChild(th);
     }
     let thead = table.createTHead();
-    thead.id = "theadAn"
+    thead.id = 'theadAn';
     let row = thead.insertRow();
-    let TH = document.createElement("th");
+    let TH = document.createElement('th');
     TH.innerText = 'key';
     row.appendChild(TH);
-    TH = document.createElement("th");
+    TH = document.createElement('th');
     TH.innerText = 'time';
     row.appendChild(TH);
-    TH = document.createElement("th");
+    TH = document.createElement('th');
     TH.innerText = 'reason';
     row.appendChild(TH);
     for (const anomaly of anomalies) {
@@ -59,18 +59,18 @@ function printTableAnomalies(anomalies) {
             const anomaliesArray = anomaly[key];
             for (const specificAnomaly in anomaliesArray) {
                 let row = thead.insertRow();
-                let td = document.createElement("td");
+                let td = document.createElement('td');
                 td.innerText = key;
                 row.appendChild(td);
-                td = document.createElement("td");
-                td.innerText = " [ " + anomaliesArray[specificAnomaly].start + " , " + anomaliesArray[specificAnomaly].end + " ) ";
-                row.appendChild(td)
-                td = document.createElement("td");
-                td.innerText = "The Other Feature : " + anomaly['reason'][specificAnomaly].otherFeature
-                    + " The Max Dev : " + anomaly['reason'][specificAnomaly].maxDev
-                    + " The Average Dev : " + anomaly['reason'][specificAnomaly].avgDev
-                    + " The Min Dev : " + anomaly['reason'][specificAnomaly].minDev;
-                row.appendChild(td)
+                td = document.createElement('td');
+                td.innerText = ' [ ' + anomaliesArray[specificAnomaly].start + ' , ' + anomaliesArray[specificAnomaly].end + ' ) ';
+                row.appendChild(td);
+                td = document.createElement('td');
+                td.innerText = 'The Other Feature : ' + anomaly['reason'][specificAnomaly].otherFeature
+                    + ' The Max Dev : ' + anomaly['reason'][specificAnomaly].maxDev
+                    + ' The Average Dev : ' + anomaly['reason'][specificAnomaly].avgDev
+                    + ' The Min Dev : ' + anomaly['reason'][specificAnomaly].minDev;
+                row.appendChild(td);
             }
         }
     }

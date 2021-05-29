@@ -5,7 +5,7 @@
 The server is a Node.js server implementing the REST API.
 
 
-**Requste**
+**Requests**
 
 Type       | Endpoint      | Explanation
 ----       | --------      | -----------
@@ -19,7 +19,8 @@ Type       | Endpoint      | Explanation
 
 
 
-**external libreries:**
+**external libraries:**
+
  name              | version
  ----              | --------
  express           | _4.17.1_
@@ -35,7 +36,8 @@ Type       | Endpoint      | Explanation
 ## Client Side
 
 
-**external libreries:**
+**external libraries:**
+
 name       | version
 ----       | --------
  Charts.js | _3.2.0_

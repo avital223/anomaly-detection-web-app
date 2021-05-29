@@ -19,7 +19,7 @@ function dataSet(data) {
             color,
             borderWidth: 1,
             backgroundColor: color,
-        }
+        };
         const currentMax = Math.max(...data[i]);
 
         if (maxValue < currentMax) {
@@ -84,10 +84,10 @@ function drawCharts(data) {
                 }
             }
     });
-};
+}
 
 function drawAnomaly(anomalies) {
-    const parsedData = []
+    const parsedData = [];
     for (const anomaly of anomalies) {
         const key = Object.keys(anomaly).filter(k => k !== 'reason')[0];
         if (anomaly[key].length !== 0) {
@@ -100,10 +100,10 @@ function drawAnomaly(anomalies) {
         }
     }
     myChart.data.datasets.push({
-        label: "Anomalies",
+        label: 'Anomalies',
         barPercentage: 1.35,
         data: parsedData,
-        type: "bar",
+        type: 'bar',
         fill: false,
         options:
             {
@@ -120,9 +120,9 @@ function drawAnomaly(anomalies) {
 
                 }
             },
-        borderColor: "#ff3333",
+        borderColor: '#ff3333',
         borderWidth: 1,
-        backgroundColor: "#ff3333",
+        backgroundColor: '#ff3333',
     });
     myChart.update();
 }

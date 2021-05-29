@@ -54,7 +54,6 @@ function setDataDetect(id, fileInput) {
 }
 
 function notifyFinishDetect(anomalies) {
-    console.log("anomalies = " + anomalies[0]);
     markAnomalies(anomalies);
     printTableAnomalies(anomalies);
     drawAnomaly(anomalies);
@@ -63,12 +62,12 @@ function notifyFinishDetect(anomalies) {
 function notifyDetect(id, data) {
     addDataToTable(data);
     drawCharts(data);
-    detect(id, data).then(a => notifyFinishDetect(a));
+    detect(id, data).then(notifyFinishDetect);
 }
 
 notifyDataSet = function (data, type) {
     addNewModel(type, data);
-    addDataToTable(data)
+    addDataToTable(data);
     drawCharts(data);
 };
 
