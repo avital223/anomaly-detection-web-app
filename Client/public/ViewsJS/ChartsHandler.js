@@ -5,25 +5,20 @@ function dataSet(data) {
     const array = [];
 
     for (const i in data) {
+        let color = '#' + Math.floor(Math.random() * 16777215).toString(16);
         const obj = {
             data: data[i],
             label: i,
             fill: false,
-            pointBackgroundColor: '#' + Math.floor(Math.random() * 16777215).toString(16),
-            pointBorderColor: 'blue',
-            pointHoverBorderColor: 'black',
+            pointBackgroundColor: color,
+            pointBorderColor: color,
+            pointHoverBorderColor: color,
             pointRadius: 1,
             pointHitRadius: 10,
-            borderColor: [
-                'rgba(255, 99, 132, 1)',
-                'rgba(54, 162, 235, 1)',
-                'rgba(255, 206, 86, 1)',
-                'rgba(75, 192, 192, 1)',
-                'rgba(153, 102, 255, 1)',
-                'rgba(255, 159, 64, 1)'
-            ],
+            borderColor:
+            color,
             borderWidth: 1,
-            backgroundColor: '#' + Math.floor(Math.random() * 16777215).toString(16),
+            backgroundColor: color,
         }
         const currentMax = Math.max(...data[i]);
 
@@ -81,8 +76,8 @@ function drawCharts(data) {
                     x: {
                         stacked: true,
                         title: {
-                            color: 'red',
-                            text: 'TIME',
+                            color: 'black',
+                            text: 'Time',
                             display: true,
                         },
                     }
@@ -91,20 +86,19 @@ function drawCharts(data) {
     });
 };
 
-function drawAnomaly({anomalies, reason}) {
+function drawAnomaly(anomalies) {
     const parsedData = []
-    const data = Object.values(anomalies)[0].map(item => {
-        const a = item.map(point => {
-            return {x: point, y: maxValue};
-        })
-
-        return a;
-    });
-
-    data.forEach(pointsArray => {
-        pointsArray.forEach(point => parsedData.push(point))
-    })
-
+    for (const anomaly of anomalies) {
+        const key = Object.keys(anomaly).filter(k => k !== 'reason')[0];
+        if (anomaly[key].length !== 0) {
+            const anomaliesArray = anomaly[key];
+            for (const specificAnomaly in anomaliesArray) {
+                for (let i = anomaliesArray[specificAnomaly].start; i < anomaliesArray[specificAnomaly].end; i++) {
+                    parsedData.push({x: i, y: maxValue});
+                }
+            }
+        }
+    }
     myChart.data.datasets.push({
         label: "Anomalies",
 
@@ -117,7 +111,7 @@ function drawAnomaly({anomalies, reason}) {
         //     y: maxValue,
         //     barThickness: 0.5
         // }],
-
+        barPercentage: 1.35,
         data: parsedData,
         type: "bar",
         fill: false,
@@ -131,16 +125,9 @@ function drawAnomaly({anomalies, reason}) {
 
                 }
             },
-        borderColor: [
-            'rgba(255, 99, 132, 1)',
-            'rgba(54, 162, 235, 1)',
-            'rgba(255, 206, 86, 1)',
-            'rgba(75, 192, 192, 1)',
-            'rgba(153, 102, 255, 1)',
-            'rgba(255, 159, 64, 1)'
-        ],
+        borderColor: "#ff3333",
         borderWidth: 1,
-        backgroundColor: '#' + Math.floor(Math.random() * 16777215).toString(16),
+        backgroundColor: "#ff3333",
     });
     myChart.update();
 }
