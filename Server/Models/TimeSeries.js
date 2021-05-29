@@ -2,15 +2,14 @@ class TimeSeries {
 
     constructor(data) {
         this.data = data;
-
+        this.names = [];
+        for (const d in this.data) {
+            this.names.push(d);
+        }
     }
 
     getFeatureNames() {
-        const names = [];
-        for (let d in this.data) {
-            names.push(d);
-        }
-        return names;
+        return this.names;
     };
 
     getFeatureData(name) {

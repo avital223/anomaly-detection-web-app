@@ -1,58 +1,81 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta content="IE=edge" http-equiv="X-UA-Compatible">
     <meta charset="utf-8">
     <title>tests</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.3.0/chart.js"></script>
+    <script src="Controller/serverContact.js"></script>
+    <script src="Model/FileHandler.js"></script>
+    <script src="ViewsJS/modelsLists.js"></script>
+    <script src="ViewsJS/dataTable.js"></script>
+    <script src="ViewsJS/DropBox.js"></script>
+    <script src="ViewsJS/ChartsHandler.js"></script>
+    <style>
+        table, th, td {
+            border: 1px solid black;
+        }
+
+        .ready {
+            color: green;
+        }
+
+        .pending {
+            color: red;
+        }
+
+        .anomaly {
+            background-color: red;
+        }
+    </style>
 </head>
-
 <body>
-<script>
-    const data = {
-        speed: [1, 2, 3, 4],
-        deg: [2, 4, 6, 8]
-    };
-    const data1 = {
-        speed: [1, 2, 3, 4],
-        deg: [10, 31, 72, 641]
-    };
 
-    const optionPost = {
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/json'
-        },
-        body: JSON.stringify(data)
-    };
-    const optionPostDetect = {
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/json'
-        },
-        body: JSON.stringify(data1)
-    };
 
-    const optionDelete = {
-        method: 'DELETE'
-    };
+<label for="ID"></label><input id="ID" type="text">
+<label for="type"></label><select id="type">
+    <option value="hybrid">hybrid</option>
+    <option value="regression">regression</option>
+</select>
 
-    let type = 'hybrid';
-    fetch('/api/model?model_type=' + type, optionPost);
-    fetch('/api/model?model_id=1').then(res => {
-        if (res.ok) {
-            res.json().then(console.log);
-        } else
-            res.text().then(console.log);
-    });
-
-    // fetch('/api/model?model_id=2', optionDelete);
-    // fetch('/api/models').then(res => res.json()).then(console.log);
-    fetch('/api/models?model_id=0', optionPostDetect).then(res => res.json()).then(console.log);
-
-</script>
-
-<h1>Hello wprld</h1>
+<label for="modelsList">Choose your model from the list:</label>
+<input onclick="setData(document.getElementById('fileInput'), document.getElementById('type').value)" type="button"
+       value="add">
+<input onclick="setDataDetect(document.getElementById('modelsList').value,document.getElementById('fileInput'))"
+       type="button"
+       value="detect">
+<input onclick="deleteModelByID(document.getElementById('modelsList').value)" type="button" value="delete">
+<table>
+    <tr>
+        <td class="Charts_td" id="charts">
+            <h1>LINE CHART</h1>
+            <label for="myChart"></label>
+            <canvas height="400" id="myChart" style="border: solid"
+                    width="400"></canvas>
+        </td>
+        <td>
+            <select class="" id="modelsList" size="30"> </select></td>
+    </tr>
+    <tr>
+        <td>
+            <h5> Students Table</h5>
+        </td>
+        <td>
+            <input id="fileInput" onchange="updateDrop(event, this)" type="file"/>
+            <label for="dropContainer"></label>
+            <div id="dropContainer"
+                 ondragend="onDragEnd(event)"
+                 ondragenter="onDragEnter(event)"
+                 ondragleave="onDragEnd(event)"
+                 ondragover="onDrag(event)"
+                 ondrop="onDrop(event, document.getElementById('fileInput'))"
+                 style="border:1px solid black;height:100px;">
+                drop here!
+            </div>
+        </td>
+    </tr>
+</table>
+<table id="dataTable"></table>
+<table id="anomalies"></table>
 </body>
-
 </html>

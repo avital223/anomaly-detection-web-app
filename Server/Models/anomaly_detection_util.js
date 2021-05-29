@@ -1,6 +1,14 @@
 // finds the average of a given array
 const avg = x => x.reduce((s, t, i) => s + ((t - s)) / (i + 1));
 
+exports.stats = arr => arr.reduce((acc, val, i) => {
+    acc.max = Math.max(acc.max, val);
+    acc.min = Math.min(acc.min, val);
+    acc.avg = acc.avg + ((val - acc.avg) / (i + 1));
+    return acc;
+}, {max: arr[0], min: arr[0], avg: arr[0]});
+
+
 // finds the average of the squares of the array
 const squaresAvg = x => avg(x.map(v => v * v));
 
@@ -26,25 +34,24 @@ const cov = (x, y) => {
 // returns the Pearson correlation coefficient of X and Y
 exports.pearson = (x, y) => cov(x, y) / (Math.sqrt(variance(x) * variance(y)));
 
+
 // performs a linear regression and returns the line equation
 exports.linear_reg = function (points) {
-    const x = [];
-    const y = [];
-    for (const p of points) {
-        x.push(p.x);
-        y.push(p.y);
-    }
-    let a = cov(x, y);
-    a = a / (variance(x));
+    const {x, y} = points.reduce((acc, p) => {
+        acc.x.push(p.x);
+        acc.y.push(p.y);
+        return acc;
+    }, {x: [], y: []});
+
+    const a = cov(x, y) / (variance(x));
     const b = avg(y) - a * avg(x);
     return {a: a, b: b};
 };
 
+const applyF = (l, x) => l.a * x + l.b;
+
 // returns the deviation between point p and the line
-exports.dev = (p, l) => {
-    const f = l.a * p.x + l.b;
-    return Math.abs(f - p.y);
-};
+exports.dev = (p, l) => Math.abs(applyF(l, p.x) - p.y);
 
 
 
