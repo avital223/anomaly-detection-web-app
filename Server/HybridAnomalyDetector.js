@@ -3,15 +3,24 @@ const SimpleAnomalyDetector = require('./SimpleAnomalyDetector');
 
 
 class HybridAnomalyDetector extends SimpleAnomalyDetector {
-
+    /**
+     *
+     * @param detector
+     */
     constructor(detector) {
         super(detector);
     }
 
+    /**
+     * @inheritDoc
+     */
     toPush(cf) {
         return Math.abs(cf.correlation) > 0.5;
     }
 
+    /**
+     * @inheritDoc
+     */
     getDistance(correlatedFeatures, point) {
         if (super.toPush(correlatedFeatures)) {
             return super.getDistance(correlatedFeatures, point);
@@ -19,15 +28,15 @@ class HybridAnomalyDetector extends SimpleAnomalyDetector {
             return Circle.distance(point, correlatedFeatures.min_circle.center);
     }
 
-
+    /**
+     * @inheritDoc
+     */
     fillCF(cf, points) {
         if (Math.abs(cf.correlation) > this.correlationThreshold) {
             super.fillCF(cf, points);
         } else if (Math.abs(cf.correlation) > 0.5) {
-            const cf1 = cf;
-            cf1.min_circle = Circle.findMinCircle(points);
-            cf1.threshold = cf1.min_circle.radius * 1.1;
-            cf = cf1;
+            cf.min_circle = Circle.findMinCircle(points);
+            cf.threshold = cf.min_circle.radius * 1.1;
         }
     }
 }

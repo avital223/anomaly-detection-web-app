@@ -13,7 +13,11 @@ class SimpleAnomalyDetector {
         }
     }
 
-    // virtual vector<AnomalyReport>
+    /**
+     *
+     * @param ts - Time Series with the data to analyze
+     * @returns {Promise<FlatArray<*[], number>[]>} all the anomalies found
+     */
     async detect(ts) {
         const anomalyReport = [];
         for (const cf of this.correlations) {
@@ -21,6 +25,7 @@ class SimpleAnomalyDetector {
             const feature2 = ts.getFeatureData(cf.feature2);
             if (!feature1 || !feature2)
                 continue;
+            // make sure to work only with usable data
             const len = Math.min(feature1.length, feature2.length);
             anomalyReport.push(
                 Array.from(
@@ -44,11 +49,23 @@ class SimpleAnomalyDetector {
         return anomalyReport.flat(1);
     }
 
+    /**
+     *
+     * @param cf a correlated feature pair
+     * @param point a point to check
+     * @returns {number} - the distance of the point from correlation
+     */
     getDistance(cf, point) {
         return util.dev(point, cf.line_reg);
     }
 
-
+    /**
+     *
+     * @param ts a Time Series
+     * @param features all the features in the Time Series
+     * @param i the place in the features array
+     * @returns {{feature2: string, correlation: number, feature1}} a correlated feature pair
+     */
     getMaxCorr(ts, features, i) {
         let maxCor = 0;
         let maxFeature = '';
@@ -71,7 +88,11 @@ class SimpleAnomalyDetector {
         };
     }
 
-
+    /**
+     *
+     * @param cf - a correlated feature pair
+     * @returns {boolean} if the correlated feature is significant enough
+     */
     toPush(cf) {
         return Math.abs(cf.correlation) > this.correlationThreshold;
     }
