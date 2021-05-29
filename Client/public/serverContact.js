@@ -56,6 +56,7 @@ function setDataDetect(id, fileInput) {
 function notifyFinishDetect(anomalies) {
     console.log("anomalies = " + anomalies[0]);
     markAnomalies(anomalies);
+    printTableAnomalies(anomalies);
     drawAnomaly(anomalies);
 }
 

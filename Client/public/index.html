@@ -22,21 +22,14 @@
         .pending {
             color: red;
         }
-        .anomaly{
+
+        .anomaly {
             background-color: red;
         }
     </style>
 </head>
 <body>
 
-<!--<style>-->
-<!--    #div1 {-->
-<!--        width: 350px;-->
-<!--        height: 70px;-->
-<!--        padding: 10px;-->
-<!--        border: 1px solid #aaaaaa;-->
-<!--    }-->
-<!--</style>-->
 
 <label for="ID"></label><input type="text" id="ID">
 <label for="type"></label><select id="type">
@@ -67,7 +60,8 @@
             <h5> Students Table</h5>
         </td>
         <td>
-            <input type="file" id="fileInput"/>
+            <input type="file" id="fileInput" onchange="updateDrop(event, this)"/>
+            <label for="dropContainer"></label>
             <div id="dropContainer" ondragenter="onDrag(event)" ondragover="onDrag(event)"
                  ondrop="onDrop(event, document.getElementById('fileInput'))"
                  style="border:1px solid black;height:100px;">
@@ -77,5 +71,6 @@
     </tr>
 </table>
 <table id="dataTable"></table>
+<table id="anomalies"></table>
 </body>
 </html>

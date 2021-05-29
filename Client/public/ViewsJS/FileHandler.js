@@ -33,8 +33,27 @@ onDrag = function (evt) {
 };
 
 onDrop = function (evt, fileInput) {
+    evt.preventDefault();
     if (evt.dataTransfer.files.length === 1) {
         fileInput.files = evt.dataTransfer.files;
+        let dr = document.getElementById("dropContainer");
+        dr.innerText = "The dropped file is " + fileInput.files[0].name;
+    }
+    else {
+        let dr = document.getElementById("dropContainer");
+        dr.innerText = "Wrong amount of files. Drop one CSV file!";
+    }
+};
+
+updateDrop = function (evt, fileInput) {
+    evt.preventDefault();
+    if (fileInput.files.length === 1) {
+        let dr = document.getElementById("dropContainer");
+        dr.innerText = "The dropped file is " + fileInput.files[0].name;
+    }
+    else {
+        let dr = document.getElementById("dropContainer");
+        dr.innerText = "Wrong amount of files. Drop one CSV file!";
     }
 };
 

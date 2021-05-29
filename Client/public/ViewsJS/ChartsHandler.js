@@ -101,22 +101,17 @@ function drawAnomaly(anomalies) {
     }
     myChart.data.datasets.push({
         label: "Anomalies",
-
-        // data: [{x: 1, y: maxValue, barThickness: 1}, {x: 2, y: maxValue, barThickness: 1}, {
-        //     x: 3,
-        //     y: maxValue,
-        //     barThickness: 1
-        // }, {
-        //     x: 0,
-        //     y: maxValue,
-        //     barThickness: 0.5
-        // }],
         barPercentage: 1.35,
         data: parsedData,
         type: "bar",
         fill: false,
         options:
             {
+                plugins: {
+                    tooltips: {
+                        enabled: false,
+                    }
+                },
                 scales: {
                     y: {
                         beginAtZero: true,
