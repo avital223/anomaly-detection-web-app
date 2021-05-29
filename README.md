@@ -1,4 +1,5 @@
-# anomaly-detection-web-app# anomaly-detection-web-app
+# anomaly-detection-web-app
+
 
 ## Server Side
 The server is a Node.js server implementing the REST API.
@@ -19,12 +20,13 @@ Type       | Endpoint      | Explanation
 
 
 **external libreries:**
- name            | version
- ----            | --------
- express         | _4.17.1_
- express-queue   | _0.0.12_
- nedb            | _1.8.0_
- workerpool      | _6.1.4_
+ name              | version
+ ----              | --------
+ express           | _4.17.1_
+ express-queue     | _0.0.12_
+ express-validator | _6.11.1_
+ nedb              | _1.8.0_
+ workerpool        | _6.1.4_
 
 
 -------
