@@ -27,18 +27,10 @@ function markAnomalies(anomalies) {
             const anomaliesArray = anomaly[key];
             for (const specificAnomaly in anomaliesArray) {
                 const anomalyRow = document.getElementById(key);
-                for (let i = anomaliesArray[specificAnomaly].start; i < anomaliesArray[specificAnomaly].end; i++) {
+                for (let i = anomaliesArray[specificAnomaly].start + 1; i <= anomaliesArray[specificAnomaly].end; i++) {
                     anomalyRow.cells.item(i).className = "anomaly";
                 }
             }
         }
     }
 }
-
-
-//
-// const obect = {};
-//
-// for (const obectKey in obect) {
-//     key, obect[key];
-// }
