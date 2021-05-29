@@ -97,7 +97,11 @@ class SimpleAnomalyDetector {
         return Math.abs(cf.correlation) > this.correlationThreshold;
     }
 
-
+    /**
+     * @description adding correlated feature pair to the detector
+     * @param ts
+     * @param cf
+     */
     createCorrelatedFeatures(ts, cf) {
         // creating the data points
         const feature1 = ts.getFeatureData(cf.feature1);
@@ -116,6 +120,11 @@ class SimpleAnomalyDetector {
         this.correlations.push(cf);
     };
 
+    /**
+     * @description filling the correlated feature pair with the appropriate data
+     * @param cf
+     * @param points
+     */
     fillCF(cf, points) {
         const line_reg = util.linear_reg(points);
         // calculating the max deviation for all the points
@@ -128,7 +137,11 @@ class SimpleAnomalyDetector {
     }
 
 
-    //virtual void 
+    /**
+     * @description learn the data and extrapolate the correlation from it
+     * @param ts Time Series
+     * @returns {Promise<void>}
+     */
     async learnNormal(ts) {
         const features = ts.getFeatureNames();
         /* runs from the first feature to the one before last no need to check the
