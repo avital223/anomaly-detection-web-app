@@ -97,7 +97,6 @@ const server = app.listen(port, () => {
     server.on('close', () => Anomaly.close());
 });
 
-
 // making sure the server is closing gracefully
 
 process.stdin.resume();//so the program will not close instantly
@@ -121,3 +120,4 @@ process.on('SIGUSR2', exitHandler.bind(null, {exit: true}));
 
 //catches uncaught exceptions
 process.on('uncaughtException', exitHandler.bind(null, {exit: true}));
+
