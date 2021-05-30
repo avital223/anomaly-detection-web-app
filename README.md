@@ -55,13 +55,15 @@ the web page is divided into _num_ section:
   * detect - after the user uploaded a csv and chose a model pressing on this button will detect the anomalies in the csv with the chosen model 
   * delete - pressing on this button will delete the selected model
   * type selection - select between `hybrid | regression` for the new detector
-* **Chart Area** - the area in which the chart appear after data has been uploaded.
+* **Chart Area** - the area in which the chart appear after data has been uploaded. If we detected anomalies, the time of the appeard anomalies will be colored in red.
 * **Models list** - here all the models currently on the server appears in the format `model_id | upload date` if the model is ready it will show in green and if it is pending it will show in red
 * **DropBox** - the users can drag over or use the button labeled `Choose File` to upload a csv file.
-* **Data Table** - the area in which the table appear after data has been uploaded.
+* **Data Table** - the area in which the table with the user data will appear after data has been uploaded. If we detected anomalies, they will be colored in red in the table.
+* **Anomalies Table** - after pressing `detect` this table will appear if there wasn't any anomalies it will say `No Anomalies Detected` otherwise it will show all the anomalies with there reasons
   
 to use this app you need to upload a csv with data, choose a detector type (hybrid by default) and press `add`. \
-after that you see a new model in the model list, after it turnd green you can upload new data choose the model and press `detect` 
+after that you see a new model in the model list, after it turnd green you can upload new data choose the model and press `detect`. \
+you can also delete a model by choosing ine and pressing `delete`
 
 ### External Libraries:
 
