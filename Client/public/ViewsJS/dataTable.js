@@ -1,4 +1,8 @@
 function addDataToTable(data) {
+    const thAn = document.getElementById('theadAn');
+    if (thAn !== null) {
+        thAn.parentElement.removeChild(thAn);
+    }
     const table = document.getElementById('dataTable');
     const th = document.getElementById('thead');
     if (th !== null) {
