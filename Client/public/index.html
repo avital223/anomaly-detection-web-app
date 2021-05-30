@@ -38,7 +38,8 @@
     <option value="regression">regression</option>
 </select>
 
-<label for="modelsList">Choose your model from the list:</label>
+<label for="modelsList"></label>
+<p id="error"></p>
 <input onclick="setData(document.getElementById('fileInput'), document.getElementById('type').value)" type="button"
        value="add">
 <input onclick="setDataDetect(document.getElementById('modelsList').value,document.getElementById('fileInput'))"
