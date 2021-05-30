@@ -29,39 +29,28 @@
         }
     </style>
 </head>
-<body>
+<body style="margin-left: 25px;">
 
-
-<label for="ID"></label><input id="ID" type="text">
-<label for="type"></label><select id="type">
+<h1>ANOMALY DETECTION WEBAPP</h1>
+<div>
+    <label for="type"></label><select id="type">
     <option value="hybrid">hybrid</option>
     <option value="regression">regression</option>
 </select>
 
-<label for="modelsList"></label>
-<p id="error"></p>
-<input onclick="setData(document.getElementById('fileInput'), document.getElementById('type').value)" type="button"
-       value="add">
-<input onclick="setDataDetect(document.getElementById('modelsList').value,document.getElementById('fileInput'))"
+    <label for="modelsList"></label>
+    <input onclick="setData(document.getElementById('fileInput'), document.getElementById('type').value)" type="button"
+    value="add">
+    <input onclick="setDataDetect(document.getElementById('modelsList').value,document.getElementById('fileInput'))"
        type="button"
-       value="detect">
-<input onclick="deleteModelByID(document.getElementById('modelsList').value)" type="button" value="delete">
-<table>
-    <tr>
-        <td class="Charts_td" id="charts">
-            <h1>LINE CHART</h1>
-            <label for="myChart"></label>
-            <canvas height="400" id="myChart" style="border: solid"
-                    width="400"></canvas>
-        </td>
-        <td>
-            <select class="" id="modelsList" size="30"> </select></td>
-    </tr>
-    <tr>
-        <td>
-            <h5> Students Table</h5>
-        </td>
-        <td>
+    value="detect">
+    <input onclick="deleteModelByID(document.getElementById('modelsList').value)" type="button" value="delete">
+    <p id="error"></p>
+</div>
+<label for="myChart"></label>
+<div style="display: flex">
+    <div>
+        <div style="margin-bottom: 25px">
             <input id="fileInput" onchange="updateDrop(event, this)" type="file"/>
             <label for="dropContainer"></label>
             <div id="dropContainer"
@@ -73,10 +62,17 @@
                  style="border:1px solid black;height:100px;">
                 drop here!
             </div>
-        </td>
-    </tr>
-</table>
-<table id="dataTable"></table>
-<table id="anomalies"></table>
+        </div>
+        <select class="" id="modelsList" size="30" style="max-height: 280px"> </select>
+    </div>
+    <div style="margin-left: 25px; margin-top: 21px" >
+        <canvas height="403" id="myChart" style="border: solid"
+                width="400"></canvas>
+    </div>
+</div>
+<div style="display: flex; flex-direction: column">
+<table style=" margin-top: 20px; border-collapse: collapse; width: 75%" id="dataTable"></table>
+<table style=" margin-top: 20px; border-collapse: collapse; width: 75%" id="anomalies"></table>
+</div>
 </body>
 </html>

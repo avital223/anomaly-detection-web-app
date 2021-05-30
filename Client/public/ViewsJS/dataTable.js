@@ -21,18 +21,18 @@ function addDataToTable(data) {
 }
 
 function markAnomalies(anomalies) {
-    for (const anomaly of anomalies) {
-        const key = Object.keys(anomaly).filter(k => k !== 'reason')[0];
-        if (anomaly[key].length !== 0) {
-            const anomaliesArray = anomaly[key];
-            for (const specificAnomaly in anomaliesArray) {
-                const anomalyRow = document.getElementById(key);
-                for (let i = anomaliesArray[specificAnomaly].start + 1; i <= anomaliesArray[specificAnomaly].end; i++) {
-                    anomalyRow.cells.item(i).className = 'anomaly';
+        for (const anomaly of anomalies) {
+            const key = Object.keys(anomaly).filter(k => k !== 'reason')[0];
+            if (anomaly[key].length !== 0) {
+                const anomaliesArray = anomaly[key];
+                for (const specificAnomaly in anomaliesArray) {
+                    const anomalyRow = document.getElementById(key);
+                    for (let i = anomaliesArray[specificAnomaly].start + 1; i <= anomaliesArray[specificAnomaly].end; i++) {
+                        anomalyRow.cells.item(i).className = 'anomaly';
+                    }
                 }
             }
         }
-    }
 }
 
 function printTableAnomalies(anomalies) {
