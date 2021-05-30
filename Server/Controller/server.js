@@ -95,6 +95,7 @@ app.delete('/api/model',
 const server = app.listen(port, () => {
     Anomaly.init();
     server.on('close', () => Anomaly.close());
+    console.log("Running on port", port);
 });
 
 // making sure the server is closing gracefully
