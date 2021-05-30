@@ -31,7 +31,7 @@
 </head>
 <body>
 
-<h1>LINE CHART</h1>
+<h1>ANOMALY DETECTION WEBAPP</h1>
 <div>
     <label for="ID"></label><input id="ID" type="text">
     <label for="type"></label><select id="type">
@@ -51,11 +51,7 @@
 <label for="myChart"></label>
 <div style="display: flex">
     <div>
-        <canvas height="400" id="myChart" style="border: solid"
-                width="400"></canvas>
-    </div>
-    <div>
-        <div>
+        <div style="margin-bottom: 25px">
             <input id="fileInput" onchange="updateDrop(event, this)" type="file"/>
             <label for="dropContainer"></label>
             <div id="dropContainer"
@@ -70,8 +66,13 @@
         </div>
         <select class="" id="modelsList" size="30" style="max-height: 280px"> </select>
     </div>
+    <div style="margin-left: 25px; margin-top: 21px" >
+        <canvas height="403" id="myChart" style="border: solid"
+                width="400"></canvas>
+    </div>
+    <table style="margin-left: 25px; margin-top: 25px" id="dataTable"></table>
+    <table style="margin-left: 25px; margin-top: 25px" id="anomalies"></table>
 </div>
-<table id="dataTable"></table>
-<table id="anomalies"></table>
+
 </body>
 </html>
