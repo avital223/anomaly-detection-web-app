@@ -15,6 +15,11 @@ addNewModel = function (type, data) {
 };
 
 detect = function (id, data) {
+    if (id == null) {
+        let error = document.getElementById('error');
+        error.innerText = "No model chosen.";
+        return;
+    }
     const optionPostDetect = {
         method: 'POST',
         headers: {
@@ -34,7 +39,12 @@ getModelById = function (id) {
     return fetch(`/api/model?model_id=${id}`).then(res => res.json());
 };
 deleteModelByID = function (id) {
-
+    console.log(id);
+    if (id === "") {
+        let error = document.getElementById('error');
+        error.innerText = "No model chosen.";
+        return;
+    }
     const optionDelete = {
         method: 'DELETE'
     };
@@ -45,11 +55,26 @@ getModels = function () {
 };
 
 setData = function (fileInput, type) {
+    if (fileInput.files.length === 0) {
+        let error = document.getElementById('error');
+        error.innerText = "No file loaded.";
+        return;
+    }
     CSV_reader(fileInput).then(data => notifyDataSet(data, type));
 };
 
 
 function setDataDetect(id, fileInput) {
+    if (fileInput.files.length === 0) {
+        let error = document.getElementById('error');
+        error.innerText = "No file loaded.";
+        return;
+    }
+    if (id === "") {
+        let error = document.getElementById('error');
+        error.innerText = "No model chosen.";
+        return;
+    }
     CSV_reader(fileInput).then(data => notifyDetect(id, data));
 }
 
