@@ -54,7 +54,7 @@ exports.init = function () {
     db.loadDatabase();
 
     // initialize a worker pool
-    pool = workerPool.pool('./Server/worker.js', {
+    pool = workerPool.pool('./Server/Models/worker.js', {
         maxQueueSize: 20
     });
 };
