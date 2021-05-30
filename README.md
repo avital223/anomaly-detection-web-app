@@ -51,17 +51,17 @@ this is a Client to communicate with the server using the [API](#API)
 the web page is divided into _num_ section:
 
 * **Buttons Row** - here there are 3 button -
-  * add - after the user upload a csv file 
-  * detect
-  * delete
+  * add - after the user uploaded a csv and chose a type pressing on this button will add a new model with the csv data 
+  * detect - after the user uploaded a csv and chose a model pressing on this button will detect the anomalies in the csv with the chosen model 
+  * delete - pressing on this button will delete the selected model
+  * type selection - select between `hybrid | regression` for the new detector
 * **Chart Area** - the area in which the chart appear after data has been uploaded.
-* **Models list** - here all the models currently on the server appears in the format `model_id | upload date` 
-if the model is ready it will show in green and if it is pending it will show in red
-* **DropBox** - the users can drag over or use the button labeled `Choose File` to upload
-a csv file.
+* **Models list** - here all the models currently on the server appears in the format `model_id | upload date` if the model is ready it will show in green and if it is pending it will show in red
+* **DropBox** - the users can drag over or use the button labeled `Choose File` to upload a csv file.
+* **Data Table** - the area in which the table appear after data has been uploaded.
   
-
-
+to use this app you need to upload a csv with data, choose a detector type (hybrid by default) and press `add`. \
+after that you see a new model in the model list, after it turnd green you can upload new data choose the model and press `detect` 
 
 ### External Libraries:
 
