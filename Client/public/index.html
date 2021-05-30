@@ -29,11 +29,10 @@
         }
     </style>
 </head>
-<body>
+<body style="margin-left: 25px;">
 
 <h1>ANOMALY DETECTION WEBAPP</h1>
 <div>
-    <label for="ID"></label><input id="ID" type="text">
     <label for="type"></label><select id="type">
     <option value="hybrid">hybrid</option>
     <option value="regression">regression</option>
@@ -70,8 +69,10 @@
         <canvas height="403" id="myChart" style="border: solid"
                 width="400"></canvas>
     </div>
-    <table style="margin-left: 25px; margin-top: 25px; border-collapse: collapse" id="dataTable"></table>
-    <table style="margin-left: 25px; margin-top: 25px; border-collapse: collapse" id="anomalies"></table>
+</div>
+<div style="display: flex; flex-direction: column">
+<table style=" margin-top: 20px; border-collapse: collapse; width: 75%" id="dataTable"></table>
+<table style=" margin-top: 20px; border-collapse: collapse; width: 75%" id="anomalies"></table>
 </div>
 </body>
 </html>
