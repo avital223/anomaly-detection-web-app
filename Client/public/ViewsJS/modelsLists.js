@@ -5,7 +5,7 @@ function addModelToList(model) {
     const status = model.status;
     const time = new Date(model.upload_time).toLocaleString('en-GB', {timeZone: 'UTC'});
     document.getElementById('modelsList').innerHTML +=
-        `<option class="${status}" style="color: black" id=${id} value=${id}>${id} | ${time}</option>`;
+        `<option class="${status}" id=${id} value=${id}>${id} | ${time}</option>`;
     if (status === 'pending') {
         pendingList.push(model.model_id);
     }
