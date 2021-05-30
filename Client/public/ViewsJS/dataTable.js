@@ -21,21 +21,22 @@ function addDataToTable(data) {
 }
 
 function markAnomalies(anomalies) {
-        for (const anomaly of anomalies) {
-            const key = Object.keys(anomaly).filter(k => k !== 'reason')[0];
-            if (anomaly[key].length !== 0) {
-                const anomaliesArray = anomaly[key];
-                for (const specificAnomaly in anomaliesArray) {
-                    const anomalyRow = document.getElementById(key);
-                    for (let i = anomaliesArray[specificAnomaly].start + 1; i <= anomaliesArray[specificAnomaly].end; i++) {
-                        anomalyRow.cells.item(i).className = 'anomaly';
-                    }
+    for (const anomaly of anomalies) {
+        const key = Object.keys(anomaly).filter(k => k !== 'reason')[0];
+        if (anomaly[key].length !== 0) {
+            const anomaliesArray = anomaly[key];
+            for (const specificAnomaly in anomaliesArray) {
+                const anomalyRow = document.getElementById(key);
+                for (let i = anomaliesArray[specificAnomaly].start + 1; i <= anomaliesArray[specificAnomaly].end; i++) {
+                    anomalyRow.cells.item(i).className = 'anomaly';
                 }
             }
         }
+    }
 }
 
 function printTableAnomalies(anomalies) {
+
     const table = document.getElementById('anomalies');
     const th = document.getElementById('theadAn');
     if (th !== null) {
@@ -45,6 +46,16 @@ function printTableAnomalies(anomalies) {
     thead.id = 'theadAn';
     let row = thead.insertRow();
     let TH = document.createElement('th');
+    let count = false;
+    for (let anomaly of anomalies) {
+        const key = Object.keys(anomaly).filter(k => k !== 'reason')[0];
+        if (anomaly[key].length !== 0) count = true;
+    }
+    if (count === false) {
+        TH.innerText = 'No Anomalies Found';
+        row.appendChild(TH);
+        return;
+    }
     TH.innerText = 'key';
     row.appendChild(TH);
     TH = document.createElement('th');
